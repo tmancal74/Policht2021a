@@ -1,0 +1,265 @@
+################################################################################
+################################################################################
+#
+#  Configuration file for "script_Policht2021.py" script. Usage of the script
+#  and this configuration file is described within the script file. Below you
+#  find a description of the parameter settings corresponding the three main use
+#  cases of the script.
+#
+#  Author: Tomáš Mančal
+#  Last change: January 20th, 2021
+#
+################################################################################
+#
+#  The script calculates omega_2 maps from 2D spectra of a disordered reaction
+#  center model described in the manuscript:
+#
+#  V. R. Policht, ..., (2021)
+#
+#
+#  Script main use cases
+#  ---------------------
+#
+#  As described in the manuscript's supporting information, the script has three
+#  main use cases:
+#
+#  1.
+#
+#  2.
+#
+#
+#  3.
+#
+#
+################################################################################
+################################################################################
+#
+#
+#           CONFIGURATION SECTION
+#
+#
+#  The script, to which this file is an input file, is designed to allow
+#  calculation of 2D spectra of molecular dimers and trimers. As it was
+#  developed for a particular trimeric model of the bacterial reaction
+#  center (RC), it does not have the full flexibility that would perhaps be
+#  expected from a script for a general trimer. In particular, the form in which
+#  input parameters are set, corresponds to the needs to study a particular
+#  model. It also partially reflects the evolutionary history of both the script
+#  and the input file.
+#
+#  The basic model of the problem is a moleculer dimer, with transition energies
+#  specified by a reference transition, parameter "E0", given in inverse cm.
+#  The transition energy of the second molecule in the dimer is set by the value
+#  of the "center" paramater, which sets a center value of the distribution of
+#  energy gaps between the reference molecule and the secondary molecule of the
+#  dimer. This parameter is used even if no disorder is expected. Transition
+#  energy of the secondary molecule is given by E0 - center. Transition dipole
+#  moments of the two molecules are specified by vectors "dip1" and "dip2" in
+#  arbitrary units. Resonance coupling between the two molecular transitions is
+#  specified in inverse cm by the parameters called "resonance_coupling".
+#  Energy relaxation rate between upper and lower excitonic state of the dimer
+#  is specified by the parameter "rate" in inverse fs. Simple arithmetic
+#  operations such as multiplication "*", division "/" addition "+" and
+#  subtraction "-" can be used to specify some (not all) values in this input
+#  file. This feature is enabled in all options (input parameters) listed in the
+#  "_math_allowed_in" option at the end of this file (new values can be added by
+#  the user if needed). Temperature of the calculation is set with the parameter
+#  "temperature" in Kelvins, and it is used to calculate uphill rates (which are
+#  not specified otherwise) if the option "detailed_balance" is set to True. One
+#  vibrational mode can be added to the model, if the subparameter "use_vib" of
+#  the parameter "vibmode". Subparameters of the parameters "vibmode" specify
+#  the properties of the vibrational mode. "HR" gives the dimensionless
+#  Huag-Rhys factor of the mode, "omega" sets the vibrational frequency in
+#  inverse centimeters, "no_g_vib" and "no_e_vib" specify the number of the
+#  vibrational states in the electronically excited state and the number of
+#  vibrational states in the electronic ground state, respectively. The minimal
+#  number of states is one. The vibrational mode is added to one of the
+#  molecules of the dimer, namely to the one with higher energy (which is
+#  assumed to be the one with transition energy E0) if the parameter
+#  "location_of_vibrations" is set to "up", or to the molecule with lower
+#  transition energy (assumed to be the secondary one) if the parameter
+#  "location_of_vibrations" is set to "down".
+#
+#
+#  Graphical representation of the models:
+#
+#       Dimer:                               Trimer:
+#
+#       E0  ---------                       E0 ----------
+#              ^
+#              |
+#              |   center
+#              |
+#              |
+#           ---------
+#
+#
+#
+#
+################################################################################
+#
+#  System parameters
+#
+################################################################################
+#
+#
+# Transition energy of a reference monomer or the upper exciton state of special
+# pair
+E0 : 11900.0  # 1/cm
+
+# Extension of the model by one state. If useit is set to True, the meaning
+# of some of the model parameters changes with respect their meaning in the
+# dimer model
+trimer:
+    useit : True  # use the third state
+    E2 : 11250.0  # lower exciton state of the special pair in 1/cm
+    DE : 0.0      # internal site energy difference in the special pair in 1/cm
+    rate: 1.0/25.0  #
+    dipsp : [0.8546, 0.5051, 0.1206] # transition dipole moment of the lower
+                                     # energy site in special pair
+
+# resonance coupling between monomer transitions
+# or between B and higher energy site in special pair
+resonance_coupling : 100.0  # 1/cm
+
+# transition dipole moments of the two molecules
+# in case of special pair: dip2 is the B molecules and dip1 is the higher energy
+# molecule of the special pair
+dip1 : [-0.9649, -0.02504, 0.2613]
+dip2 : [0.7782, 0.5332, 0.3317]
+
+# relaxation downhill rate in the dimer
+# or the rate from B to special pair higher energy exciton state
+rate                :  1.0/150.0
+
+# properies of the vibrational mode
+vibmode:
+    use_vib : True       # should we use vibrations at all?
+    HR      : 0.01       # Huang-Rhys factor of the vibration
+    omega   : 740.0      # frequency of the vibration in 1/cm
+    no_g_vib : 2 # number of vibrational levels in the ground state
+    no_e_vib : 2 # number of vibrational levels in the excited state
+    # value 2 means states with 0 and 1 vibrational quanta
+
+# On which molecule the vibrations should be placed?
+# (low or high energy monomer or both)
+location_of_vibrations : "down"  # can be "up", "down" or "both"
+
+################################################################################
+#
+#  Excitation time evolution and energy ralaxation details
+#
+################################################################################
+
+# temperature for calculation of a backward rates
+temperature : 77.0  # K
+
+# use detailed balance to calculate uphill rates based on the temperature
+detailed_balance : True
+
+# t2 time specification
+t2_N_steps          : 100
+t2_time_step        : 10.0  # fs
+fine_splitting      : 10    # number of steps inside the t2_time_step
+
+
+###############################################################################
+#
+#  Calculated spectra
+#
+###############################################################################
+
+# t1 time
+t1_N_steps          : 100
+t1_time_step        : 10.0  # fs
+
+# t3 time
+t3_N_steps          : 100
+t3_time_step        : 10.0  # fs
+
+# Gaussian width of the 2D spectrum features
+feature_width       : 100.0 # 1/cm
+feature_width2      : 200.0
+
+# trim maps to this spectral region
+trim_maps_to        : [11000, 14000, 11000, 14000]  # 1/cm
+
+#
+# select only pathways, which fall within +/- omega_uncertaity/2
+#
+omega_uncertainty   : 10.0 # 1/cm
+
+# Tukey window parameter
+tukey_window_r      : 0.3
+
+###############################################################################
+#
+#  Disorder parameters
+#
+###############################################################################
+
+# run only a single realization corresponding to the center of the disorder
+# distribution
+single_realization: False
+# center of the disorder in energy gap
+center : 630.0  # 1/cm
+# step of the disorder scanning
+step : 2.0  # 1/cm
+# maximum possible FWHM of the disorder
+max_available_fwhm : 40.0  # 1/cm
+# how many FWHM we include into the scanned energy interval
+how_many_fwhm : 2
+
+
+disorder: True
+N_realizations: 2  # 384
+disorder_fwhm: 100
+restart_disorder: False
+
+random_state:
+  reset: False
+  save: False
+  file: random_state.qrp
+
+
+###############################################################################
+#
+#  Parameters steering the simulation and output
+#
+###############################################################################
+
+# The ouput directory of the script will be called "sim_up" if the variable
+# called location_of_vibrations is set to "up", or "sim_down" if the varialble
+# called location_of_vibrations is set to "down". You can add more info into
+# the directory name by specifying the variable below
+#append_to_dirname : "_om=740"
+
+# You can also append time stamp to the directory, if you specify True below
+append_time_stamp: True
+
+# at which t2 values we should save all Liouville pathways
+# times in fs
+t2_save_pathways : [0.0, 30.0, 50.0, 100.0, 150.0, 200.0, 300.0, 500.0, 1000.0]
+
+# if set True, input file will be coppied into the directory with the results
+copy_input_file_to_results : True
+
+
+#
+#            END OD CONFIGURATION SECTION
+#
+
+###############################################################################
+###############################################################################
+#
+# List of possible math evaluations
+#
+_math_allowed_in : ["E0", "resonance_coupling", "rate",
+                    ["vibmode",["HR","omega","rate"]],
+                    ["trimer",["rate"]],
+                    "center", "step", "max_available_fwhm",
+                    "how_many_fwhm", "t2_save_pathways"]
+
+# EOF
+###############################################################################
+###############################################################################
