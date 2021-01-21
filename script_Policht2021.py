@@ -519,7 +519,7 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
     sbi.set_system(agg)
 
     #
-    # Liouville form for relaxation
+    # Lindblad form for relaxation
     #
     LF = qr.qm.ElectronicLindbladForm(HH, sbi, as_operators=True)
 

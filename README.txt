@@ -1,4 +1,4 @@
-This file contains information about simulations scripts for the manuscript:
+This file contains information about simulation scripts for the manuscript:
 
 V. R. Policht, ..., 2021
 
