@@ -7,7 +7,7 @@
 
     Veronica R. Policht, Andrew Niedringhaus, Cameron Spitzfaden,
     Philip D. Laible, David F. Bocian, Christine Kirmaier, Dewey Holten,
-    Tomáš Mančal and Jennifer P. Ogilvie,
+    Tomas Mancal and Jennifer P. Ogilvie,
     Hidden Vibronic and Excitonic Structure and Vibronic Coherence Transfer
     in the Bacterial Reaction Center, submitted 2021
 
