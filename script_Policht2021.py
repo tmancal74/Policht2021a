@@ -148,7 +148,7 @@ import datetime
 import os
 import shutil
 import gc
-import resource
+import platform
 
 # Numpy library
 import numpy
@@ -674,8 +674,12 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
         sp1_m_to, show_Npoint1 = fcont_m_to.get_nearest(show_omega)
         sp2_m_to, show_Npoint2 = fcont_m_to.get_nearest(-show_omega)
 
-    memo = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/(1024*1024)
-    print("Memory usage: ", memo, "in MB" )
+    sstm = platform.system()
+    print(sstm)
+    if (sstm is not "win64") and (sstm is not "win32"):
+        import resource
+        memo = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/(1024*1024)
+        print("Memory usage: ", memo, "in MB" )
 
     return (sp1_p_re, sp1_p_nr, sp2_m_re, sp2_m_nr)
 
