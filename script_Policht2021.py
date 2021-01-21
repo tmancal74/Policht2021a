@@ -675,8 +675,8 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
         sp2_m_to, show_Npoint2 = fcont_m_to.get_nearest(-show_omega)
 
     sstm = platform.system()
-    print(sstm)
-    if (sstm != "win64") and (sstm != "win32"):
+    #print(sstm)
+    if sstm != "Windows":
         import resource
         memo = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/(1024*1024)
         print("Memory usage: ", memo, "in MB" )
