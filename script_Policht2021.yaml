@@ -253,7 +253,7 @@ temperature : 77.0  # K
 detailed_balance : True
 
 # t2 time specification
-t2_N_steps          : 100
+t2_N_steps          : 10
 t2_time_step        : 10.0  # fs
 fine_splitting      : 10    # number of steps inside the t2_time_step
 

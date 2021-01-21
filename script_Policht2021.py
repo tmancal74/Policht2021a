@@ -897,7 +897,7 @@ for model in models:
                     disE[1] = disM[1,ds]
                     disE[2] = disM[2,ds]
 
-                print("\nCalculating disordered spectra ... (",ds,"of",Nreal,
+                print("\nCalculating disordered spectra ... (",ds+1,"of",Nreal,
                       ") [run ",kk,"of",Np,"]")
                 print("---")
                 print("Temperature =", temperature,"K")
@@ -980,7 +980,7 @@ for model in models:
             #
             for (JJ, dE, trimer) in qr.block_distributed_list(ptns):
 
-                print("\nCalculating spectra ... (",kp,"of",Nje,
+                print("\nCalculating spectra ... (",kp+1,"of",Nje,
                       ") [run ",kk,"of",Np,"]")
                 print("---")
                 print("Temperature =", temperature,"K")
