@@ -676,7 +676,7 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
 
     sstm = platform.system()
     print(sstm)
-    if (sstm is not "win64") and (sstm is not "win32"):
+    if (sstm != "win64") and (sstm != "win32"):
         import resource
         memo = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/(1024*1024)
         print("Memory usage: ", memo, "in MB" )
@@ -830,7 +830,7 @@ for model in models:
     dname = "sim_"+vib_loc+app
     ts = time.time()
     if INP.append_time_stamp:
-        at = '_{0:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now())
+        at = '_{0:%Y-%m-%d_%H%M%S}'.format(datetime.datetime.now())
         dname = dname+at
     try:
         os.makedirs(dname)
