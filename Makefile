@@ -1,5 +1,28 @@
-all: help 
-
+#
+#  Makefile for the simulaiton scripts of the manuscript:
+#
+#  Veronica R. Policht, Andrew Niedringhaus, Cameron Spitzfaden,
+#	 Philip D. Laible, David F. Bocian, Christine Kirmaier, Dewey Holten,
+#	 Tomáš Mančal and Jennifer P. Ogilvie,
+#	 Hidden Vibronic and Excitonic Structure and Vibronic Coherence Transfer
+#	 in the Bacterial Reaction Center, submitted 2021
+#
+#  This file should work on most Linux/Unix systems (including macOS)
+#
+#  Type the following on the command line
+#  (">" represents the command line prompt)
+#
+#  > make help
+#
+#  to see the list of available tasks. The tasks can be configured in the
+#  configuration section below. Unless you know precisely what you are doing,
+#  do not edit anything except the configuration section
+#
+################################################################################
+#
+#  CONFIGURATION SECTION
+#
+################################################################################
 NUMBER_OF_PROCESSES=4
 
 #PARALLEL= -p -n ${NUMBER_OF_PROCESSES}
@@ -8,6 +31,24 @@ PARALLEL=
 PIPE= > log 2>&1 &
 #PIPE=
 
+################################################################################
+#
+#  END OF THE CONFIGURATION SECTION
+#
+################################################################################
+
+#
+################################################################################
+#
+#   AVAILABLE TASKS
+#
+################################################################################
+#
+
+# default task
+all: help
+
+# help message
 help:
 	@echo
 	@echo "Simulation Makefile          "
@@ -20,27 +61,30 @@ help:
 	@echo
 	@echo "Available tasks: "
 	@echo "---------------- "
-	@echo 
+	@echo
 	@echo "> make help "
-	@echo 
+	@echo
 	@echo "    Prints this message "
-	@echo 
+	@echo
 	@echo "> make run "
-	@echo 
+	@echo
 	@echo "    Runs the simulations "
-	@echo 
+	@echo
 	@echo "> make clean "
-	@echo 
+	@echo
 	@echo "    Deletes the output of the simulations "
 	@echo
- 
 
+
+# delete results from all previous runs
 clean:
 	rm -rf sim* log
 
 
+# run a simulation
+run:
+	(time qrhei run ${PARALLEL} script_Policht2021.yaml) ${PIPE}
 
-run: clean
-	(time qrhei run ${PARALLEL} script_Policht2021.yaml) ${PIPE} 
 
-
+################################################################################
+# EOF

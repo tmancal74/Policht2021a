@@ -1,23 +1,26 @@
-Simulation scripts for the manuscript:
+This file contains information about simulations scripts for the manuscript:
 
 V. R. Policht, ..., 2021
- 
 
-The following files should be present in current directory:
 
-README.txt
+The following files should be present in the current directory:
+
+README.txt  (this file)
 script_Policht2021.py
 script_Policht2021.yaml
 Makefile
 make.bat
 
+The scripts require Python 3 and the Quantarhei package installed. Open the file
+"script_Policht2021.py" as a text file, and consult it for the installation
+instructions of Python 3 and the Quantarhei package and for description of its
+usage.
 
-Consult the "script_Policht2021.py" on usage and installation instruction,
-and "script_Policht2021.yaml" for details on the simulation parameters.
+Consult the file "script_Policht2021.yaml" for details on the simulation
+parameters and options.
 
-Type on the command line (">" represents the command line prompt) 
+All files in this directory contain descriptions of their meaning and usage.
 
-> make clean
-
-to set the directory into its original state.
-
+Last change: January 21, 2021
+Author: Tomas Mancal
+Email: tmancal74@gmail.com

@@ -3,9 +3,13 @@
     Intro
     -----
 
-    Simulation script as a supporting information for the manuscript
+    Simulation script as a supporting information for the manuscript:
 
-    V. R. Policht et al., ..., 2021
+    Veronica R. Policht, Andrew Niedringhaus, Cameron Spitzfaden,
+    Philip D. Laible, David F. Bocian, Christine Kirmaier, Dewey Holten,
+    Tomáš Mančal and Jennifer P. Ogilvie,
+    Hidden Vibronic and Excitonic Structure and Vibronic Coherence Transfer
+    in the Bacterial Reaction Center, submitted 2021
 
     This script performs a set of simulations reproducing the numerical results
     presented in the above manuscript. The full set of files needed to run the
@@ -45,8 +49,8 @@
     The latest available version of Quantarhei, together with its dependencies
     will be installed.
 
-    (If have a different distribution of Python, you can alternatively use the
-    pip tool to install Quantarhei as:
+    (If you have a different distribution of Python, you can alternatively use
+    the "pip" tool to install Quantarhei as:
 
     > pip install quantarhei
 
@@ -69,7 +73,18 @@
 
     This means that the Quantarhei package of version 0.0.63 is present. Version
     number 0.0.63 is the minimum requirement to run the scripts. Newer versions
-    should give you the same results.
+    should give you the same results. Should the syntax of quantarhei commands
+    change during future development, this script would likely fail. Try to get
+    an updated version by typing the following on the command line:
+
+    > qrhei fetch -e script_Policht2021
+
+    This should give you the version of the script compatible with the latest
+    Quantarhei development. If even this fails, report a bug at
+
+    https://github.com/tmancal74/quantarhei/issues
+
+    or write to the author at tmancal74@gmail.com.
 
 
     Running the simulations
@@ -108,9 +123,9 @@
 
     The simulation script produces a single output directory which contains
     raw data of the simulation. Depending on the use case, additional scripts
-    are used to produce figures and movies representing the results. 
+    are used to produce figures and movies representing the results.
 
-
+    ... to be continued
 
 
 """
@@ -147,6 +162,7 @@ from quantarhei import printlog as print
 
 print("\n*****   RC Simulation Script   *****")
 print("\nUsing Quantarhei version", qr.Manager().version)
+
 #
 # SCRIPT INPUT FILE NAME
 #
@@ -304,7 +320,6 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
 
             mol1 = qr.Molecule([0.0, E0])
             mol2 = qr.Molecule([0.0, E0+dE])
-
             print("Monomer 1 energy:", E0, "1/cm")
             print("Monomer 2 energy:", E0+dE, "1/cm")
 
@@ -559,7 +574,6 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
                                         selection=[["omega2",[olow, ohigh]]])
         pws = pways[str(t2)]
         npa = len(pws)
-        #print(" p:", npa)
         has_R = False
         has_NR = False
         for pw in pws:
@@ -567,8 +581,6 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
                 has_NR = True
             elif pw.pathway_type == "R":
                 has_R = True
-
-        #print(" R:", has_R, ", NR:", has_NR)
 
         if t2 in t2_save_pathways:
             pws_name = os.path.join(dname, "pws_t2="+str(t2)+
@@ -667,14 +679,21 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
 
     return (sp1_p_re, sp1_p_nr, sp2_m_re, sp2_m_nr)
 
+#
+#  END OF THE MAIN SIMULATION ROUTINE
+#
 
 ###############################################################################
 ###############################################################################
 #
-#   PARAMETERS OF THE SIMULATION
+#   START OF THE SCRIPT
 #
 ###############################################################################
 ###############################################################################
+
+#
+# First collecting parameters of the simulation
+#
 
 # vibrational mode properties
 parms1 = [INP.vibmode]
@@ -699,7 +718,10 @@ t2_save_pathways = INP.t2_save_pathways #[50.0, 100.0, 200.0, 300.0]
 #
 # Here we construct a path through parameters space
 #
-center = INP.center #600.0
+center = INP.dE01 # This is the center of the disorder distribution
+                  # of the energy gap between the reference monomer and the
+                  # secondary monomer; or B and upper SP exciton in the case
+                  # of the trimer model
 step = INP.step #2.0
 
 max_available_fwhm = INP.max_available_fwhm #100.0
@@ -712,12 +734,6 @@ Ns_u = int(2.0*how_many_fwhm*max_available_fwhm/step) # 50
 vax = qr.ValueAxis(center-Ns_d*step, Ns_d+Ns_u+1, step)
 trimer = INP.trimer
 use_trimer =  trimer["useit"]
-
-#print("\nSummary of simulation parameters\n")
-#print("Energy gap values:")
-#print("Minimal gap =", vax.min)
-#print("Maximum gap =", vax.max)
-#print("Number of steps =", vax.length)
 
 #
 # Here we specify pairs of parameters (resonance coupling J and energy
@@ -764,9 +780,6 @@ else:
 
 E0 = INP.E0 # transition energy (in 1/cm) of the reference monomer
 
-###############################################################################
-###############################################################################
-
 #
 # Containers for resulting 2D maps
 #
@@ -795,6 +808,10 @@ n_save = 0
 tags = []
 save_it_at_the_end = False
 
+#
+# loop over different models (we do not use it here - the goes only once)
+#
+
 tA = time.time()
 at = '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 print("\nStarting simulation set at", at)
@@ -822,6 +839,10 @@ for model in models:
             shutil.copy2(input_file, dname)
         else:
             INP.dump_yaml(os.path.join(dname, "input_file.yml"))
+
+    #
+    # Main loop
+    #
 
     kk = 1
     at = '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
@@ -880,7 +901,7 @@ for model in models:
                       ") [run ",kk,"of",Np,"]")
                 print("---")
                 print("Temperature =", temperature,"K")
-                print("JJ =", JJ, "1/cm")
+                #print("JJ =", JJ, "1/cm")
                 print("dE =", dE, "1/cm")
                 print("Disorder in energies: ", disE, "1/cm")
 
@@ -963,7 +984,7 @@ for model in models:
                       ") [run ",kk,"of",Np,"]")
                 print("---")
                 print("Temperature =", temperature,"K")
-                print("JJ =", JJ, "1/cm")
+                #print("JJ =", JJ, "1/cm")
                 print("dE =", dE, "1/cm")
 
                 t1 = time.time()
@@ -1050,3 +1071,7 @@ else:
 # Formal closing of the region that can be run in parallel
 #
 qr.close_parallel_region()
+
+################################################################################
+################################################################################
+# EOF
