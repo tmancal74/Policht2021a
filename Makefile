@@ -23,12 +23,22 @@
 #  CONFIGURATION SECTION
 #
 ################################################################################
+PARALLEL=True
 NUMBER_OF_PROCESSES=4
 
-#PARALLEL= -p -n ${NUMBER_OF_PROCESSES}
-PARALLEL=
+BACKGROUND=True
 
-PIPE= > log 2>&1 &
+SAVE_OUTPUT=True
+LOG_FILE=log
+
+
+
+PARALLELOPT=
+ifeq (${PARALLEL},True)
+PARALLELOPT= -p -n ${NUMBER_OF_PROCESSES}
+endif
+
+PIPE= > ${LOG_FILE} 2>&1 &
 #PIPE=
 
 ################################################################################
@@ -83,7 +93,7 @@ clean:
 
 # run a simulation
 run:
-	(time qrhei run ${PARALLEL} script_Policht2021.yaml) ${PIPE}
+	(time qrhei run ${PARALLELOPT} script_Policht2021.yaml) ${PIPE}
 
 
 ################################################################################

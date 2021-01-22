@@ -337,7 +337,7 @@ how_many_fwhm : 2
 #
 
 # how many realization in the disorder
-N_realizations: 2  # 384
+N_realizations: 1  # 384
 # FWHM of the disorder Gaussian distribution
 disorder_fwhm: 100
 
