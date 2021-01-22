@@ -118,7 +118,7 @@ run:
 
 
 figures:
-	${PYTHON} fig_single.py ${DIR} ${CMAP}
+	${PYTHON} fig_single.py ${DIR} 
 
 ################################################################################
 # EOF

@@ -17,6 +17,7 @@ if %%a==NUMBER_OF_PROCESSES set NUMBER_OF_PROCESSES=%%b
 if %%a==SAVE_OUTPUT set SAVE_OUTPUT=%%b
 if %%a==LOG_FILE set LOG_FILE=%%b
 if %%a==BACKGROUND set BACKGROUND=%%b
+if %%a==PYTHON set PYTHON=%%b
 )
 
 rem ######################################################################
@@ -79,6 +80,10 @@ if %task% == run (
    %STARTER% qrhei run %PARALLELOPT% script_Policht2021.yaml %PIPE%
 
 
+) else if %task% == figures (
+
+   %PYTHON% fig_single.py %2 
+
 rem     Cleaning files
 ) else if %task% == clean (
 
@@ -87,6 +92,7 @@ rem     Cleaning files
    if exist *~ del *~
    if exist log del log
    if exist output.log del output.log
+   if exist *.png del *.png
 
 ) else if %task% == help (
    echo.

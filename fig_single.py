@@ -1,32 +1,73 @@
+###############################################################################
 #
 #  This script produces figures from the raw Quantarhei data output
 #
-#
+###############################################################################
 #
 #  HOW RUN THIS SCRIPT
 #  -------------------
 #
-#  Use the Makefile in the same directory as this script. If you type
+#  Use the Makefile in the same directory as this script. The usage 
+#  differs slightly between Windows and Linux/Unix/Mac systems.
+#  On Linux/Unix/Mac systems you type
 #
 #  > make figures DIR=results_dir
 #
-#  where results_dir is the name of the output directory of Quantarhei
-#  simulation, this script will be run by the Python interpreter and figures
-#  will be produced.
+#  the same on Windows reads
 #
-#  You can also supply a color map as a *.mat file (produced by Matlab) as
+#  > make figures results_dir
+#
+#  In both cases results_dir is the name of the output directory of Quantarhei
+#  simulation. In both cases this script will be run by the Python interpreter 
+#  and figures will be produced.
+#
+#
+#  ADVANCED CONFIGURATION
+#  ----------------------
+#
+#  In the advanced configuration section below you cn configure the output
+#  figure
+#
+##  You can also supply a color map as a *.mat file (produced by Matlab) as
 #  a second argument as below:
+#
+#  On Linux/Unix/Mac
 #
 #  > make figures DIR=results_dir CMAP=colormap_file
 #
+#  and 
+#
+#  > make figures results_dir colormap_file 
+#
+#  on Windows.
 #
 
 import scipy.io as io
 import matplotlib as mpl
-import numpy
 import sys, os
 
 import quantarhei as qr
+
+###############################################################################
+#
+#  ADVANCED CONFIGURATION SECTION
+#
+###############################################################################
+
+# Number of contours
+Ncont = 10
+
+# 2D spectrum range in 1/cm
+window=[10500,13550,10500,13550]
+
+#cmpfile = None
+cmpfile = "parula_colormap.mat"
+
+###############################################################################
+#
+#  END OF CONFIGURATION SECTION
+#
+###############################################################################
 
 print()
 print("===============================")
@@ -41,17 +82,12 @@ except:
 
 ext = {0:"p_re", 1:"p_nr", 2:"m_re", 3:"m_nr"}
 fig = None
-Ncont = 10
 
 nodes = [0] #, 1, 2]
 
 # use submitted matlab colormap
-try:
-    cmlfile = sys.argv[2]
-except:
-    cmlfile = None
-if cmlfile is not None:
-    clrmp = io.loadmat(cmlfile)["colmap"]
+if cmpfile is not None:
+    clrmp = io.loadmat(cmpfile)["colmap"]
     cmap = mpl.colors.ListedColormap(clrmp)
 else:
     cmap = None
@@ -91,7 +127,9 @@ for ext_i in range(4):
         sp.normalize2(dpart=qr.part_ABS)
         with qr.energy_units("1/cm"):
             if fig is None:
-                fig = sp.plot(spart=qr.part_ABS, Npos_contours=Ncont, window=[10500,13550,10500,13550], cmap=cmap, vmin_ratio=0.0)
+                fig = sp.plot(spart=qr.part_ABS, Npos_contours=Ncont, 
+                              window=window, 
+                              cmap=cmap, vmin_ratio=0.0)
             else:
                 fig  = sp.plot(fig=fig)
 
@@ -101,4 +139,4 @@ for ext_i in range(4):
 
 print("\n       ... finished")
 print("===============================")
-#cont.make_movie("mov.mp4")
+
