@@ -2,26 +2,22 @@
 rem ######################################################################
 rem
 rem     Configuration section
+rem     
+rem     This file uses Makefile as its configuration file. If you want to
+rem     change the behaviour of this script, edit the opening few lines
+rem     of Makefile.
+rem
+rem     Makefile resides in the same directory as this script
 rem
 rem ######################################################################
 
-rem   set to True to start a parallel simulation, False otherwise
-set PARALLEL=False
-
-rem   set the number of precesses you want to run in parallel
-set NUMBER_OF_PROCESSES=8
-
-rem   set to True to send the output into a file instead of the screen
-set SAVE_OUTPUT=False
-
-rem   logging file name
-set LOG_FILE=log
-
-rem   set to True to run the simulation in the background, False otherwise
-set BACKGROUND=True
-
-
-
+for /f "tokens=1,2 delims==" %%a in (Makefile) do (
+if %%a==PARALLEL set PARALLEL=%%b
+if %%a==NUMBER_OF_PROCESSES set NUMBER_OF_PROCESSES=%%b
+if %%a==SAVE_OUTPUT set SAVE_OUTPUT=%%b
+if %%a==LOG_FILE set LOG_FILE=%%b
+if %%a==BACKGROUND set BACKGROUND=%%b
+)
 
 rem ######################################################################
 rem
@@ -67,9 +63,9 @@ rem     Running the simulation
 if %task% == run (
 
    if %PARALLEL% == True (
-      echo Running parallel simulation on the foreground
+      echo Running parallel simulation
    ) else (
-      echo Running serial simulation on the foreground
+      echo Running serial simulation
    )
    if %SAVE_OUTPUT% == True (
       echo Logging output into file: %LOG_FILE%
@@ -88,7 +84,9 @@ rem     Cleaning files
 
    echo Removing files
    for /f %%i in ('dir /a:d /b sim_*') do rmdir /s /q %%i
-   del *~
+   if exist *~ del *~
+   if exist log del log
+   if exist output.log del output.log
 
 ) else if %task% == help (
    echo.

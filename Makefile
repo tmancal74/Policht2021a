@@ -8,7 +8,7 @@ NUMBER_OF_PROCESSES=4
 BACKGROUND=True
 
 # save the output to a file
-SAVE_OUTPUT=False
+SAVE_OUTPUT=True
 
 # filename to save output to (default is output.log)
 LOG_FILE=log
@@ -48,8 +48,6 @@ PARALLELOPT=
 ifeq (${PARALLEL},True)
 PARALLELOPT= -p -n ${NUMBER_OF_PROCESSES}
 endif
-
-
 
 LOGGING=
 ifeq (${SAVE_OUTPUT},True)
