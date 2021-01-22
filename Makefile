@@ -1,3 +1,19 @@
+# run simulation in parallel
+PARALLEL=True
+
+# number of processes to start
+NUMBER_OF_PROCESSES=4
+
+# run in the background
+BACKGROUND=True
+
+# save the output to a file
+SAVE_OUTPUT=False
+
+# filename to save output to (default is output.log)
+LOG_FILE=log
+
+################################################################################
 #
 #  Makefile for the simulaiton scripts of the manuscript:
 #
@@ -19,33 +35,37 @@
 #  do not edit anything except the configuration section
 #
 ################################################################################
+
 #
-#  CONFIGURATION SECTION
+#   DO NOT EDIT BELOW THIS LINE
 #
-################################################################################
-PARALLEL=True
-NUMBER_OF_PROCESSES=4
 
-BACKGROUND=True
-
-SAVE_OUTPUT=True
-LOG_FILE=log
-
-
+ifeq (${LOG_FILE},)
+LOG_FILE=output.log
+endif
 
 PARALLELOPT=
 ifeq (${PARALLEL},True)
 PARALLELOPT= -p -n ${NUMBER_OF_PROCESSES}
 endif
 
-PIPE= > ${LOG_FILE} 2>&1 &
-#PIPE=
 
-################################################################################
-#
-#  END OF THE CONFIGURATION SECTION
-#
-################################################################################
+
+LOGGING=
+ifeq (${SAVE_OUTPUT},True)
+LOGGING= > ${LOG_FILE} 2>&1
+endif
+
+AMPRS=
+ifeq (${BACKGROUND},True)
+AMPRS=&
+ifeq (${LOGGING},)
+LOGGING= > ${LOG_FILE} 2>&1
+endif
+endif
+
+PIPE= ${LOGGING} ${AMPRS}
+#PIPE=
 
 #
 ################################################################################
