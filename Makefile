@@ -1,17 +1,21 @@
 # run simulation in parallel
-PARALLEL=True
+PARALLEL=False
 
 # number of processes to start
 NUMBER_OF_PROCESSES=4
 
 # run in the background
-BACKGROUND=True
+BACKGROUND=False
 
 # save the output to a file
-SAVE_OUTPUT=True
+SAVE_OUTPUT=False
 
 # filename to save output to (default is output.log)
 LOG_FILE=log
+
+# change this to your python interpreter
+PYTHON= python
+
 
 ################################################################################
 #
@@ -106,13 +110,15 @@ help:
 
 # delete results from all previous runs
 clean:
-	rm -rf sim* log
-
+	rm -rf sim* log output.log *.png 
 
 # run a simulation
 run:
 	(time qrhei run ${PARALLELOPT} script_Policht2021.yaml) ${PIPE}
 
+
+figures:
+	${PYTHON} fig_single.py ${DIR} ${CMAP}
 
 ################################################################################
 # EOF

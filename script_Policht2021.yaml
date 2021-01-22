@@ -238,7 +238,7 @@ vibmode:
 
 # On which molecule the vibrations should be placed?
 # (low or high energy monomer or both)
-location_of_vibrations : "down"  # can be "up", "down" or "both"
+location_of_vibrations : "up"  # can be "up", "down"
 
 ################################################################################
 #
@@ -317,9 +317,9 @@ tukey_window_r      : 0.3
 
 # run only a single realization corresponding to the center of the disorder
 # distribution
-single_realization: False
+single_realization: True
 # use disorder or not
-disorder: True
+disorder: False
 
 #
 #  Energy gap scan
