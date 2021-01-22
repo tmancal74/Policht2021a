@@ -44,7 +44,7 @@
     by typing the following into your terminal (the character ">" represents
     your terminal's prompt)
 
-    > conda install -c tmancal74 quantarhei
+    > conda install -c tmancal74 -c conda-forge quantarhei
 
     The latest available version of Quantarhei, together with its dependencies
     will be installed.
