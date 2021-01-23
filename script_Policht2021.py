@@ -984,7 +984,7 @@ for model in models:
             #
             for (JJ, dE, trimer) in qr.block_distributed_list(ptns):
 
-                print("\nCalculating spectra ... (",kp+1,"of",Nje,
+                print("\nCalculating spectra ... (",kp,"of",Nje,
                       ") [run ",kk,"of",Np,"]")
                 print("---")
                 print("Temperature =", temperature,"K")

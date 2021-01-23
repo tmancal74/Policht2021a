@@ -1,5 +1,5 @@
 # run simulation in parallel
-PARALLEL=False
+PARALLEL=True
 
 # number of processes to start
 NUMBER_OF_PROCESSES=4
@@ -110,7 +110,13 @@ help:
 
 # delete results from all previous runs
 clean:
-	rm -rf sim* log output.log *.png 
+	rm -rf sim* log output.log
+
+del:
+	rm -rf log output.log *.png *.mov *.mp4
+
+purge: clean del
+
 
 # run a simulation
 run:
@@ -118,7 +124,10 @@ run:
 
 
 figures:
-	${PYTHON} fig_single.py ${DIR} 
+	${PYTHON} fig_single.py ${DIR}
+
+movies:
+	${PYTHON} mov_scan.py ${DIR}
 
 ################################################################################
 # EOF
