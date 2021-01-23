@@ -35,6 +35,12 @@ except:
     print("Simulation output directory not specified")
     qr.exit()
 
+try:
+    Nnods = int(sys.argv[2])
+except:
+    print("Number of processes not specified")
+    qr.exit()
+
 ext = {0:"p_re", 1:"p_nr", 2:"m_re", 3:"m_nr"}
 fig = None
 
@@ -46,7 +52,6 @@ else:
     cmap = None
 
 do_nodes = True
-Nnods = 1
 normalize = True
 
 def label_func(sp):

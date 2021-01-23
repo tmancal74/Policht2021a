@@ -146,7 +146,7 @@ figures:
 
 # make movies from raw data of enegy gap scan
 movies:
-	${PYTHON} aux_movies.py ${DIR}
+	${PYTHON} aux_movies.py ${DIR} ${NUMBER_OF_PROCESSES}
 
 ################################################################################
 # EOF
