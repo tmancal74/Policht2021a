@@ -7,7 +7,7 @@
 #  HOW RUN THIS SCRIPT
 #  -------------------
 #
-#  Use the Makefile in the same directory as this script. The usage 
+#  Use the Makefile in the same directory as this script. The usage
 #  differs slightly between Windows and Linux/Unix/Mac systems.
 #  On Linux/Unix/Mac systems you type
 #
@@ -18,7 +18,7 @@
 #  > make figures results_dir
 #
 #  In both cases results_dir is the name of the output directory of Quantarhei
-#  simulation. In both cases this script will be run by the Python interpreter 
+#  simulation. In both cases this script will be run by the Python interpreter
 #  and figures will be produced.
 #
 #
@@ -35,9 +35,9 @@
 #
 #  > make figures DIR=results_dir CMAP=colormap_file
 #
-#  and 
+#  and
 #
-#  > make figures results_dir colormap_file 
+#  > make figures results_dir colormap_file
 #
 #  on Windows.
 #
@@ -45,6 +45,7 @@
 import scipy.io as io
 import matplotlib as mpl
 import sys, os
+import numpy
 
 import quantarhei as qr
 
@@ -82,8 +83,21 @@ except:
 
 ext = {0:"p_re", 1:"p_nr", 2:"m_re", 3:"m_nr"}
 fig = None
+show_plot = True
+
+combinations = [["p", "re"], ["p", "nr"], ["m", "re"], ["m", "nr"]]
 
 nodes = [0] #, 1, 2]
+
+mode = "single"
+if mode == "single":
+    do_nodes = True
+    prefix = "cont_"
+    postfix = "_single"
+elif mode == "average":
+    do_nodes = False
+    prefix = "ave_"
+    postfix = "_average"
 
 # use submitted matlab colormap
 if cmpfile is not None:
@@ -92,51 +106,90 @@ if cmpfile is not None:
 else:
     cmap = None
 
-for ext_i in range(4):
+try:
 
-    print("\nSignal component:", ext[ext_i])
+    for ext_i in range(4):
 
-    cont = qr.TwoDSpectrumContainer()
-    cont.use_indexing_type("integer")
+        print("\nSignal component:", ext[ext_i])
 
-    do_nodes = True
-    ii = 0
-    for node in nodes:
+        cont = qr.TwoDSpectrumContainer()
+        cont.use_indexing_type("integer")
 
-        if do_nodes:
-            ndp = "_"+str(node)
-        else:
-            ndp = ""
+        ii = 0
+        for node in nodes:
 
-        file_name = os.path.join(target_dir, "cont_"+ext[ext_i]+ndp+".qrp")
-        print("Loading file:", file_name)
-        conta = qr.load_parcel(file_name)
-
-        for tag in conta.spectra:
-            print("(node, tag, new tag):", node, tag, ii)
-            sp = conta.get_spectrum(tag)
-            ntag = ii
-            cont.set_spectrum(sp, tag=ntag)
-            ii += 1
-
-    print("Summary ("+ext[ext_i]+"):")
-    for tag in cont.spectra:
-
-        sp = cont.get_spectrum(tag)
-        print(tag, sp.params["dE"])
-        sp.normalize2(dpart=qr.part_ABS)
-        with qr.energy_units("1/cm"):
-            if fig is None:
-                fig = sp.plot(spart=qr.part_ABS, Npos_contours=Ncont, 
-                              window=window, 
-                              cmap=cmap, vmin_ratio=0.0)
+            if do_nodes:
+                ndp = "_"+str(node)
             else:
-                fig  = sp.plot(fig=fig)
+                ndp = ""
 
-        file_name = "sp_"+str(tag)+"_"+ext[ext_i]+".png"
-        print("Saving file:", file_name)
-        sp.savefig(file_name)
+            file_name = os.path.join(target_dir, prefix+ext[ext_i]+ndp+".qrp")
+            print("Loading file:", file_name)
+            conta = qr.load_parcel(file_name)
+
+            for tag in conta.spectra:
+                #print("(node, tag, new tag):", node, tag, ii)
+                sp = conta.get_spectrum(tag)
+                ntag = ii
+                cont.set_spectrum(sp, tag=ntag)
+                ii += 1
+
+        #print("Summary ("+ext[ext_i]+"):")
+        for tag in cont.spectra:
+
+            sp = cont.get_spectrum(tag)
+            #print(tag, sp.params["dE"])
+            sp.normalize2(dpart=qr.part_ABS)
+            with qr.energy_units("1/cm"):
+                if fig is None:
+                    fig = sp.plot(spart=qr.part_ABS, Npos_contours=Ncont,
+                                  window=window,
+                                  cmap=cmap, vmin_ratio=0.0)
+                else:
+                    fig  = sp.plot(fig=fig)
+
+            file_name = ("fig_"+ext[ext_i]+postfix+"_cont="
+                         +str(Ncont)+".png")
+            print("Saving file:", file_name)
+            sp.savefig(file_name)
+
+except:
+    pass
+
+
+try:
+
+    dname = target_dir
+
+    for comb in combinations:
+        fsign = comb[0]
+        tsigl = comb[1]
+
+        fname = "ave_"+fsign+"_"+tsigl+".qrp"
+
+        floc = os.path.join(dname,fname)
+
+        av = qr.load_parcel(floc)
+
+        print("loaded")
+        mx = numpy.max(numpy.abs(av.data))
+        av.data = av.data/mx
+
+
+        try:
+            with qr.energy_units("1/cm"):
+                av.plot(spart=qr.part_ABS, Npos_contours=Ncont, window=window,
+                cmap=cmap, vmin_ratio=0.0)
+                av.savefig("fig_"+fsign+"_"+tsigl+
+                           "_average_cont="+str(Ncont)+".png")
+            if show_plot:
+                qr.show_plot()
+        except:
+            raise Exception()
+
+except:
+    pass
+
 
 print("\n       ... finished")
 print("===============================")
-

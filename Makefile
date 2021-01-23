@@ -124,10 +124,13 @@ run:
 
 
 figures:
-	${PYTHON} fig_single.py ${DIR}
+	${PYTHON} aux_fig_single.py ${DIR}
 
 movies:
-	${PYTHON} mov_scan.py ${DIR}
+	${PYTHON} aux_mov_scan.py ${DIR}
 
+averages:
+	${PYTHON} aux_fig_average.py ${DIR}
+	
 ################################################################################
 # EOF
