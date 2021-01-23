@@ -1,5 +1,5 @@
 # run simulation in parallel
-PARALLEL=True
+PARALLEL=False
 
 # number of processes to start
 NUMBER_OF_PROCESSES=4

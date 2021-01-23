@@ -1,8 +1,17 @@
-.make.*
+#
+
+# script output and log files and directories
 output.log
 log
+sim_*
+
+# space to save some results for later use
 save/*
 
+# media outputted by the scripts
 *.png
 *.mov
 *.mp4
+
+# vi backup files
+*~
