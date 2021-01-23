@@ -1,7 +1,14 @@
+################################################################################
+#
+#  SIMULATION SETTINGS
+#  (Details of Makefile usage below the settings)
+#
+################################################################################
 # run simulation in parallel
+# (mpi4py Python package and MPI have to be installed)
 PARALLEL=False
 
-# number of processes to start
+# number of processes to start (has no effect if PARALLEL=False)
 NUMBER_OF_PROCESSES=4
 
 # run in the background
@@ -10,7 +17,8 @@ BACKGROUND=False
 # save the output to a file
 SAVE_OUTPUT=False
 
-# filename to save output to (default is output.log)
+# filename to save output to (default is output.log);
+# has no effect if SAVE_OUTPUT=False
 LOG_FILE=log
 
 # change this to your python interpreter
@@ -67,7 +75,6 @@ endif
 endif
 
 PIPE= ${LOGGING} ${AMPRS}
-#PIPE=
 
 #
 ################################################################################
@@ -115,7 +122,6 @@ help:
 	@echo "    Deletes the output of the simulations "
 	@echo
 
-
 # delete results from all previous runs
 clean:
 	rm -rf sim* log output.log
@@ -126,7 +132,6 @@ del:
 
 # delete everything
 purge: clean del
-
 
 # run a simulation
 run:
@@ -139,8 +144,6 @@ figures:
 # make movies from raw data of enegy gap scan
 movies:
 	${PYTHON} aux_movies.py ${DIR}
-
-
 
 ################################################################################
 # EOF

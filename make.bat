@@ -1,15 +1,11 @@
 @echo off
-rem ######################################################################
+rem #######################################################################
 rem
-rem     Configuration section
-rem     
-rem     This file uses Makefile as its configuration file. If you want to
+rem     This file uses "Makefile" as its configuration file. If you want to
 rem     change the behaviour of this script, edit the opening few lines
-rem     of Makefile.
+rem     of Makefile. Makefile resides in the same directory as this script.
 rem
-rem     Makefile resides in the same directory as this script
-rem
-rem ######################################################################
+rem #######################################################################
 
 for /f "tokens=1,2 delims==" %%a in (Makefile) do (
 if %%a==PARALLEL set PARALLEL=%%b
@@ -24,7 +20,8 @@ rem ######################################################################
 rem
 rem     Settings (do not edit anything below this line)
 rem
-rem ######################################################################    
+rem ######################################################################
+
 if %PARALLEL% == True (
    set PARALLELOPT= -p -n %NUMBER_OF_PROCESSES% -d mpiexec
 ) else (
@@ -76,13 +73,17 @@ if %task% == run (
       echo Simulation runs in backgroud. Use taskmanager to watch its progress.
    ) else (
       echo Wait untill the simulation is finished ^(use Ctrl-c to stop execution^) ...
-   )   
+   )
    %STARTER% qrhei run %PARALLELOPT% script_Policht2021.yaml %PIPE%
 
 
 ) else if %task% == figures (
 
-   %PYTHON% fig_single.py %2 
+   %PYTHON% aux_figures.py %2
+
+) else if %task% == movies (
+
+   %PYTHON% aux_movies.py %2
 
 rem     Cleaning files
 ) else if %task% == clean (
@@ -94,31 +95,40 @@ rem     Cleaning files
    if exist output.log del output.log
    if exist *.png del *.png
 
+rem    Help message
 ) else if %task% == help (
    echo.
-   echo Simulation Makefile          
+   echo Simulation Makefile
    echo ===================
    echo.
    echo To configure the session, edit the switches at the start
    echo of this Makefile. You can choose between serial and parallel
-   echo simulation and adjust logging and whether to run in the 
+   echo simulation and adjust logging and whether to run in the
    echo background or not
    echo.
-   echo Available tasks: 
-   echo ---------------- 
+   echo Available tasks:
+   echo ----------------
    echo.
-   echo ^> make help 
+   echo ^> make help
    echo.
-   echo     Prints this message 
+   echo     Prints this message
    echo.
-   echo ^> make run 
+   echo ^> make run
    echo.
-   echo     Runs the simulations. On Linux and macOS 
+   echo     Runs the simulations. On Linux and macOS
    echo     the job submission can be configured
    echo.
-   echo ^> make clean 
+   echo ^> make figures
+ 	 echo.
+ 	 echo     Produces 2D omega_2 map figures
+ 	 echo
+ 	 echo ^> make movies
+ 	 echo.
+ 	 echo     Produces movies for the energy gap scan "
+ 	 echo
+   echo ^> make clean
    echo.
-   echo     Deletes the output of the simulations 
+   echo     Deletes the output of the simulations
    echo.
 
 )
