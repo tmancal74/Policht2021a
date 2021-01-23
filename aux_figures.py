@@ -83,7 +83,6 @@ except:
 
 ext = {0:"p_re", 1:"p_nr", 2:"m_re", 3:"m_nr"}
 fig = None
-show_plot = True
 
 combinations = [["p", "re"], ["p", "nr"], ["m", "re"], ["m", "nr"]]
 
@@ -108,6 +107,7 @@ else:
 
 try:
 
+    print("\nLooking for single realization files ...")
     for ext_i in range(4):
 
         print("\nSignal component:", ext[ext_i])
@@ -152,13 +152,14 @@ try:
                          +str(Ncont)+".png")
             print("Saving file:", file_name)
             sp.savefig(file_name)
-
+    print("\n... single realization files processed")
 except:
-    pass
+    print("\nNo single spectrum files found")
 
 
 try:
 
+    print("\nLooking for averaged disorder files ...")
     dname = target_dir
 
     for comb in combinations:
@@ -166,29 +167,29 @@ try:
         tsigl = comb[1]
 
         fname = "ave_"+fsign+"_"+tsigl+".qrp"
+        print("\nSignal component:", fsign+"_"+tsigl)
 
         floc = os.path.join(dname,fname)
-
+        print("Loading file:", floc)
         av = qr.load_parcel(floc)
 
-        print("loaded")
         mx = numpy.max(numpy.abs(av.data))
         av.data = av.data/mx
-
 
         try:
             with qr.energy_units("1/cm"):
                 av.plot(spart=qr.part_ABS, Npos_contours=Ncont, window=window,
                 cmap=cmap, vmin_ratio=0.0)
-                av.savefig("fig_"+fsign+"_"+tsigl+
-                           "_average_cont="+str(Ncont)+".png")
-            if show_plot:
-                qr.show_plot()
+                flname = ("fig_"+fsign+"_"+tsigl+
+                          "_average_cont="+str(Ncont)+".png")
+                print("Saving file: ",flname)
+                av.savefig(flname)
         except:
             raise Exception()
 
+    print("\n... averaged spectra processed")
 except:
-    pass
+    print("\nNo averaged spectrum files found")
 
 
 print("\n       ... finished")

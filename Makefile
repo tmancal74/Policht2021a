@@ -102,6 +102,14 @@ help:
 	@echo
 	@echo "    Runs the simulations "
 	@echo
+	@echo "> make figures "
+	@echo
+	@echo "    Produces 2D omega_2 map figures "
+	@echo
+	@echo "> make movies "
+	@echo
+	@echo "    Produces movies for the energy gap scan "
+	@echo
 	@echo "> make clean "
 	@echo
 	@echo "    Deletes the output of the simulations "
@@ -112,9 +120,11 @@ help:
 clean:
 	rm -rf sim* log output.log
 
+# delete media produced by auxiliary scripts
 del:
-	rm -rf log output.log *.png *.mov *.mp4
+	rm -rf *.png *.mov *.mp4
 
+# delete everything
 purge: clean del
 
 
@@ -122,15 +132,15 @@ purge: clean del
 run:
 	(time qrhei run ${PARALLELOPT} script_Policht2021.yaml) ${PIPE}
 
-
+# make figures from raw data (single realization or average)
 figures:
-	${PYTHON} aux_fig_single.py ${DIR}
+	${PYTHON} aux_figures.py ${DIR}
 
+# make movies from raw data of enegy gap scan
 movies:
-	${PYTHON} aux_mov_scan.py ${DIR}
+	${PYTHON} aux_movies.py ${DIR}
 
-averages:
-	${PYTHON} aux_fig_average.py ${DIR}
-	
+
+
 ################################################################################
 # EOF

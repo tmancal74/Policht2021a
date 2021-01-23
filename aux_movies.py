@@ -104,8 +104,7 @@ for ext_i in ext:
             cont.set_spectrum(sp, tag=ntag)
             ii += 1
 
-    print("...done")
-    mfilename = "movie_"+ext[ext_i]+".mov"
+    mfilename = "movie_"+ext[ext_i]+"_cont="+str(Ncont)+".mov"
     print("Exporting movie: ", mfilename)
     #
     # make a united movie
