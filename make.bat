@@ -83,7 +83,7 @@ if %task% == run (
 
 ) else if %task% == movies (
 
-   %PYTHON% aux_movies.py %2
+   %PYTHON% aux_movies.py %2 %NUMBER_OF_PROCESSES%
 
 rem     Cleaning files
 ) else if %task% == clean (
