@@ -1,6 +1,7 @@
 ################################################################################
 #
-#  SIMULATION SETTINGS
+#  GLOBAL SIMULATION SETTINGS
+#  Here you can set behavior of the simulation
 #  (Details of Makefile usage below the settings)
 #
 ################################################################################
@@ -109,13 +110,15 @@ help:
 	@echo
 	@echo "    Runs the simulations "
 	@echo
-	@echo "> make figures "
+	@echo "> make figures DIR=results_directory"
 	@echo
-	@echo "    Produces 2D omega_2 map figures "
+	@echo "    Produces 2D omega_2 map figures from simulation results "
+	@echo "    stored in the results_directory "
 	@echo
 	@echo "> make movies "
 	@echo
-	@echo "    Produces movies for the energy gap scan "
+	@echo "    Produces movies for the energy gap scan from simulation results "
+	@echo "    stored in the results_directory "
 	@echo
 	@echo "> make clean "
 	@echo

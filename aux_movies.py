@@ -46,7 +46,7 @@ else:
     cmap = None
 
 do_nodes = True
-Nnods = 4
+Nnods = 1
 normalize = True
 
 def label_func(sp):
