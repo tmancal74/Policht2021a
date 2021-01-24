@@ -93,7 +93,14 @@ rem     Cleaning files
    if exist *~ del *~
    if exist log del log
    if exist output.log del output.log
+
+rem     Cleaning media files
+) else if %task% == del (
+
+   echo Removing files
    if exist *.png del *.png
+   if exist *.mov del *.mov
+   if exist *.mp4 del *.mp4
 
 rem    Help message
 ) else if %task% == help (
@@ -119,18 +126,21 @@ rem    Help message
    echo     the job submission can be configured
    echo.
    echo ^> make figures
- 	 echo.
- 	 echo     Produces 2D omega_2 map figures
- 	 echo
- 	 echo ^> make movies
- 	 echo.
- 	 echo     Produces movies for the energy gap scan "
- 	 echo
+   echo.
+   echo     Produces 2D omega_2 map figures
+   echo.
+   echo ^> make movies
+   echo.
+   echo     Produces movies for the energy gap scan 
+   echo.
    echo ^> make clean
    echo.
    echo     Deletes the output of the simulations
    echo.
-
+   echo ^> make del
+   echo.
+   echo     Deletes media files created by scripts
+   echo.
 )
 rem ##################################################################################
 rem   EOF

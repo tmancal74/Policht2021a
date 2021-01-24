@@ -10,7 +10,7 @@
 PARALLEL=True
 
 # number of processes to start (has no effect if PARALLEL=False)
-NUMBER_OF_PROCESSES=4
+NUMBER_OF_PROCESSES=1
 
 # run in the background
 BACKGROUND=False
@@ -123,6 +123,10 @@ help:
 	@echo "> make clean "
 	@echo
 	@echo "    Deletes the output of the simulations "
+	@echo
+	@echo "> make del "
+	@echo
+	@echo "    Deletes media files created by scripts "
 	@echo
 
 # delete results from all previous runs
