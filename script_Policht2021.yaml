@@ -7,7 +7,7 @@
 #  main use cases of the script.
 #
 #  Author: Tomas Mancal
-#  Last change: January 21th, 2021
+#  Last change: January 24th, 2021
 #
 ################################################################################
 #
@@ -24,19 +24,32 @@
 #  Script main use cases
 #  ---------------------
 #
-#  As described in the manuscript's supporting information, the script has three
-#  main use cases:
+#  As described in the manuscript's supporting information, the script
+#  has three main use cases:
 #
-#  1.
+#  1. Single realization (single)
 #
-#  2.
+#     Calculation of a single \omega_2 map for each of the four different types
+#     of 2D spectrum according to the model parameters specified in this file.
 #
+#  2. Disorder averaging (disorder)
 #
-#  3.
+#     Averaging of \omega_2 maps for each of the four different types
+#     of 2D spectrum with parameters specified below in this file and with
+#     random energies generated from a Gaussian distribution
+#
+#  3. Energy gap scan (scan)
+#
+#     Calculation of a single \omega_2 map for each of the four different types
+#     of 2D spectrum according to the model parameters specified in this file,
+#     with varying energy gap between special pair and  B molecules.
 #
 ################################################################################
 #
 
+# The three use cases are defined later in this file.
+# Specify which use case to use here.
+# Possible values are: single, disorder, scan
 usecase: disorder
 
 #
@@ -191,14 +204,13 @@ usecase: disorder
 #  with the step length given by the parameter "t2_time_step". All values of
 #  times are in femto seconds (fs).
 #
-#
+
 ################################################################################
 #
 #  System parameters
 #
 ################################################################################
-#
-#
+
 # Transition energy of a reference monomer or the B molecule of RC in the case
 # that we use trimer model
 E0 : 11900.0  # 1/cm
@@ -262,7 +274,6 @@ t2_N_steps          : 5
 t2_time_step        : 10.0  # fs
 fine_splitting      : 10    # number of steps inside the t2_time_step
 
-
 ###############################################################################
 #
 #  Calculated spectra
@@ -297,37 +308,20 @@ tukey_window_r      : 0.3
 #  Disorder and scanning parameters
 #
 ###############################################################################
-#
-#  THE MAIN SCRIPT USE CASES:
-#  --------------------------
-#
-#  1. single realization \omega_2 map
-#
-#     single_realization: True
-#     disorder: False
-#
-#
-#  2. averaging over static disorder
-#
-#     single_realization: False
-#     disorder: True
-#
-#
-#  3. energy gap scan
-#
-#     single_realization:
-#     disorder:
-#
-#
 
-# run only a single realization corresponding to the center of the disorder
-# distribution
+###############################################################################
+# The following two parameters "single_realization" and "disorder" can be
+# overriden by predefined usecases (see USE CASES DEFINITION section below)
+###############################################################################
+#
+# run only a single realization corresponding to the center
+# of the disorder distribution
 single_realization: False
 # use disorder or not
 disorder: False
 
 #
-#  Energy gap scan
+#  Energy gap scan parameters
 #
 
 # step in energy gap scanning
@@ -338,7 +332,7 @@ max_available_fwhm : 5.0  # 1/cm
 how_many_fwhm : 2
 
 #
-#  Gaussian static disorder
+#  Gaussian static disorder parameters
 #
 
 # how many realization in the disorder
@@ -355,10 +349,11 @@ disorder_fwhm: 100
 # restart and continue a stopped or finished disorder averaging
 restart_disorder: False
 
+# starting parameters of the random distribution of energies
 random_state:
-  reset: False
-  save: False
-  file: random_state.qrp
+  reset: False            # reset the random generator from a saved state
+  save: False             # save the last random state
+  file: random_state.qrp  # file to save/read random state from
 
 # The ouput directory of the script will be called "sim_up" if the variable
 # called location_of_vibrations is set to "up", or "sim_down" if the varialble
@@ -392,21 +387,44 @@ copy_input_file_to_results : True
 #
 ###############################################################################
 ###############################################################################
+#
+#  THE MAIN SCRIPT USE CASES:
+#  --------------------------
 
-define_usecase:
-  name: scan
-  variables: ["single_realizaton", "disorder"]
-  values: [False, False]
-
+#
+#  1. single realization \omega_2 map
+#
+#     single_realization: True
+#     disorder: False
+#
 define_usecase:
   name: single
   variables: ["single_realization", "disorder"]
   values: [True, False]
 
+#
+#  2. averaging over static disorder
+#
+#     single_realization: False
+#     disorder: True
+#
 define_usecase:
   name: disorder
   variables: ["single_realization", "disorder"]
   values: [False, True]
+
+#
+#  3. energy gap scan
+#
+#     single_realization: False
+#     disorder: False
+#
+define_usecase:
+  name: scan
+  variables: ["single_realizaton", "disorder"]
+  values: [False, False]
+
+###############################################################################
 
 #
 # List of possible math evaluations

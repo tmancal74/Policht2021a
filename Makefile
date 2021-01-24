@@ -138,7 +138,7 @@ help:
 
 # delete results from all previous runs
 clean:
-	rm -rf sim* log output.log
+	rm -rf sim* log output.log *.tar
 
 # delete media produced by auxiliary scripts
 del:
@@ -158,6 +158,11 @@ figures:
 # make movies from raw data of enegy gap scan
 movies:
 	${PYTHON} ${MOVIES_SCRIP} ${DIR} ${NUMBER_OF_PROCESSES}
+
+# creates a tar ball with all the files required to run simulations
+pack:
+	tar cf script_policht2021.tar aux make.bat Makefile parula_colormap.dat
+	tar rf script_policht2021.tar README.txt runme.bat script_Policht2021.*
 
 ################################################################################
 # EOF

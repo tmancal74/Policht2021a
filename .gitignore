@@ -13,5 +13,7 @@ save/*
 *.mov
 *.mp4
 
+*.tar
+
 # vi backup files
 *~
