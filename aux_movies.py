@@ -21,7 +21,7 @@ Ncont = 10
 window=[10500,13550,10500,13550]
 
 #cmpfile = None
-cmpfile = "parula_colormap.mat"
+cmpfile = "parula_colormap.dat"
 
 ###############################################################################
 #
@@ -44,10 +44,17 @@ except:
 ext = {0:"p_re", 1:"p_nr", 2:"m_re", 3:"m_nr"}
 fig = None
 
-# use submitted matlab colormap
+# use submitted colormap
 if cmpfile is not None:
-    clrmp = io.loadmat(cmpfile)["colmap"]
+
+    # conversion of matlab colormap to text
+    #clrmp = io.loadmat(cmpfile)["colmap"]
+    #cmap = mpl.colors.ListedColormap(clrmp)
+    #numpy.savetxt("colormap.dat", clrmp)
+
+    clrmp = numpy.loadtxt(cmpfile)
     cmap = mpl.colors.ListedColormap(clrmp)
+
 else:
     cmap = None
 

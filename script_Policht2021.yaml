@@ -317,7 +317,7 @@ tukey_window_r      : 0.3
 
 # run only a single realization corresponding to the center of the disorder
 # distribution
-single_realization: False
+single_realization: True
 # use disorder or not
 disorder: False
 

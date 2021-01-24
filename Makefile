@@ -7,7 +7,7 @@
 ################################################################################
 # run simulation in parallel
 # (mpi4py Python package and MPI have to be installed)
-PARALLEL=True
+PARALLEL=False
 
 # number of processes to start (has no effect if PARALLEL=False)
 NUMBER_OF_PROCESSES=1
