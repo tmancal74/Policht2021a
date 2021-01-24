@@ -53,6 +53,9 @@ PYTHON= python
 #   DO NOT EDIT BELOW THIS LINE
 #
 
+MOVIES_SCRIP=aux/aux_movies.py
+FIGURES_SCRIPT=aux/aux_figures.py
+
 ifeq (${LOG_FILE},)
 LOG_FILE=output.log
 endif
@@ -150,11 +153,11 @@ run:
 
 # make figures from raw data (single realization or average)
 figures:
-	${PYTHON} aux_figures.py ${DIR}
+	${PYTHON} ${FIGURES_SCRIPT} ${DIR}
 
 # make movies from raw data of enegy gap scan
 movies:
-	${PYTHON} aux_movies.py ${DIR} ${NUMBER_OF_PROCESSES}
+	${PYTHON} ${MOVIES_SCRIP} ${DIR} ${NUMBER_OF_PROCESSES}
 
 ################################################################################
 # EOF

@@ -26,6 +26,9 @@ rem     Settings (do not edit anything below this line)
 rem
 rem ######################################################################
 
+set MOVIES_SCRIP=aux\aux_movies.py
+set FIGURES_SCRIPT=aux\aux_figures.py
+
 if %PARALLEL% == True (
    set PARALLELOPT= -p -n %NUMBER_OF_PROCESSES% -d mpiexec
 ) else (
@@ -87,11 +90,11 @@ if %task% == run (
 
 ) else if %task% == figures (
 
-   %PYTHON% aux_figures.py %2
+   %PYTHON% %FIGURES_SCRIPT% %2
 
 ) else if %task% == movies (
 
-   %PYTHON% aux_movies.py %2 %NUMBER_OF_PROCESSES%
+   %PYTHON% %MOVIES_SCRIP% %2 %NUMBER_OF_PROCESSES%
 
 rem     Cleaning files
 ) else if %task% == clean (
