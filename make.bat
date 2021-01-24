@@ -1,6 +1,10 @@
 @echo off
 rem #######################################################################
 rem
+rem     This script models the behaviour of the Unix/Linux utility 
+rem     called make. You do not need to install make on your Windows 
+rem     system to run the simulations in this directory.
+rem
 rem     This file uses "Makefile" as its configuration file. If you want to
 rem     change the behaviour of this script, edit the opening few lines
 rem     of Makefile. Makefile resides in the same directory as this script.

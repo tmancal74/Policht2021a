@@ -26,16 +26,16 @@ RUNNING THE SCRIPTS
 -------------------
 The simplest way to run the script is to configure the session in the first few
 lines of the file called Makefile (this applies to both Windows and Linux/Unix/Mac
-systems, although Makefile is used very differently on different systems. 
+systems, although Makefile is used very differently on different systems). 
 Set the options depending on your software/hardware and use the following command:
 
 make run
 
-Again this applies to all systems. On Windows Makefile is just a configuration file
+This again applies to all systems. On Windows Makefile is just a configuration file
 for a custom script, while on Linux/Unix/Mac it is used by a unix specific program
 called make. 
 
-On Windows you can alternatively click the run.bat file to start the scripts in
+On Windows you can alternatively click on the runme.bat file to start the scripts in
 a new window. 
 
 More information about more control over running the scripts can be found in
@@ -49,8 +49,9 @@ parameters and options.
 
 
 
-All files in this directory contain descriptions of their meaning and usage.
+All files in this directory contain descriptions of their meaning and usage. Just
+open them as text files.
 
-Last change: January 22, 2021
+Last change: January 24, 2021
 Author: Tomas Mancal
 Email: tmancal74@gmail.com
