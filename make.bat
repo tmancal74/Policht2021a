@@ -32,6 +32,10 @@ if %PARALLEL% == True (
    set PARALLELOPT=
 )
 
+if %PARALLEL% == False (
+   set NUMBER_OF_PROCESSES=1
+)
+
 if %BACKGROUND% == True (
    set STARTER=start /b
 ) else (

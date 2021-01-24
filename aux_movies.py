@@ -2,6 +2,7 @@
 import matplotlib
 matplotlib.rcParams['text.usetex'] = True
 import scipy.io as io
+import numpy
 import matplotlib as mpl
 import sys
 import os

@@ -98,7 +98,7 @@ elif mode == "average":
     prefix = "ave_"
     postfix = "_average"
 
-# use submitted matlab colormap
+# use submitted colormap
 if cmpfile is not None:
 
     # conversion of matlab colormap to text

@@ -34,6 +34,11 @@
 #
 #  3.
 #
+################################################################################
+#
+
+usecase: disorder
+
 #
 ################################################################################
 ################################################################################
@@ -317,7 +322,7 @@ tukey_window_r      : 0.3
 
 # run only a single realization corresponding to the center of the disorder
 # distribution
-single_realization: True
+single_realization: False
 # use disorder or not
 disorder: False
 
@@ -379,6 +384,29 @@ copy_input_file_to_results : True
 #
 ###############################################################################
 ###############################################################################
+
+###############################################################################
+###############################################################################
+#
+#            USE CASES DEFINITION
+#
+###############################################################################
+###############################################################################
+
+define_usecase:
+  name: scan
+  variables: ["single_realizaton", "disorder"]
+  values: [False, False]
+
+define_usecase:
+  name: single
+  variables: ["single_realization", "disorder"]
+  values: [True, False]
+
+define_usecase:
+  name: disorder
+  variables: ["single_realization", "disorder"]
+  values: [False, True]
 
 #
 # List of possible math evaluations

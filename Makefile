@@ -10,7 +10,7 @@
 PARALLEL=False
 
 # number of processes to start (has no effect if PARALLEL=False)
-NUMBER_OF_PROCESSES=1
+NUMBER_OF_PROCESSES=4
 
 # run in the background
 BACKGROUND=False
@@ -60,6 +60,10 @@ endif
 PARALLELOPT=
 ifeq (${PARALLEL},True)
 PARALLELOPT= -p -n ${NUMBER_OF_PROCESSES}
+endif
+
+ifeq (${PARALLEL},False)
+NUMBER_OF_PROCESSES=1
 endif
 
 LOGGING=
