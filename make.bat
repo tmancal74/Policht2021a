@@ -1,8 +1,8 @@
 @echo off
 rem #######################################################################
 rem
-rem     This script models the behaviour of the Unix/Linux utility 
-rem     called make. You do not need to install make on your Windows 
+rem     This script models the behaviour of the Unix/Linux utility
+rem     called make. You do not need to install make on your Windows
 rem     system to run the simulations in this directory.
 rem
 rem     This file uses "Makefile" as its configuration file. If you want to
@@ -129,13 +129,15 @@ rem    Help message
    echo     Runs the simulations. On Linux and macOS
    echo     the job submission can be configured
    echo.
-   echo ^> make figures
+   echo ^> make figures results_directory
    echo.
-   echo     Produces 2D omega_2 map figures
+   echo     Produces 2D omega_2 map figures. results_directory is
+   echo     the directory containing results of Quantarhei simulation.
    echo.
-   echo ^> make movies
+   echo ^> make movies results_directory
    echo.
-   echo     Produces movies for the energy gap scan 
+   echo     Produces movies for the energy gap scan. results_directory is
+   echo     the directory containing results of Quantarhei simulation.
    echo.
    echo ^> make clean
    echo.

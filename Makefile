@@ -115,7 +115,7 @@ help:
 	@echo "    Produces 2D omega_2 map figures from simulation results "
 	@echo "    stored in the results_directory "
 	@echo
-	@echo "> make movies "
+	@echo "> make movies DIR=results_directory"
 	@echo
 	@echo "    Produces movies for the energy gap scan from simulation results "
 	@echo "    stored in the results_directory "
