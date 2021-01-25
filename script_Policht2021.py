@@ -62,6 +62,16 @@
 
     > conda install mpi4py
 
+    In addition you need to have message passing interface (MPI) implementation
+    installed.On Windows, we recommand to install Microsoft's implementation of
+    the MPI, which can be found at
+    https://docs.microsoft.com/en-us/message-passing-interface/microsoft-mpi
+
+    To produce movies, ffmpeg program is required. Although there is a package
+    called ffmpeg in conda, on some platforms (on Mac and Windows) it seems to
+    be easier to install ffmpeg independentently of Python. The program has to
+    be in your system's path.
+
     4. Once Quantarhei package is installed, test its presence on your computer.
     If you type:
 
@@ -114,8 +124,20 @@
     because it tells qrhei driver to run in parallel. The option -n specifies
     the number of processes that will simultaneously start on your computer.
 
-    Parameters of the simulation are all specified in the input file, which
-    contains a thorough description of all its entries.
+    To simplify running the code, we have provided Makefile to be run by the
+    "make" utility (on Linux and Mac), and a batch file called make.bat to be
+    run on Windows. The Windows version uses Makefile as a configuration file,
+    so that configuration of the simulation is the same on all platforms. See
+    Makefile for more details. One you decide whether you want to run in
+    parallel or not and similar other decisiosn you make in Makefile, you just
+    type:
+
+    > make run
+
+    to run the simulation. On Windows you can click runme.bat file in the
+    simulation directory in stead.
+
+    Data analysis can be also run by make.
 
 
     Data analysis and production of figures
@@ -123,9 +145,31 @@
 
     The simulation script produces a single output directory which contains
     raw data of the simulation. Depending on the use case, additional scripts
-    are used to produce figures and movies representing the results.
+    are used to produce figures and movies representing the results. We provide
+    two script to be found in the "aux" subdirectory.
 
-    ... to be continued
+    Typing on Linux/Max
+
+    > make figures DIR=results_directory
+
+    where results_directory is the name of the directory with Quantarhei
+    output, creates figures (\omega_2 maps) corresponding to the simulation
+    results.
+
+    On Windows, equivalent command is simpler and reads
+
+    > make figures results_directory
+
+    Some simulations (the energy gap scans) can be presented by movies. The
+    movies can be created from the Quantarhei output by typing:
+
+    > make movies DIR=results_directory
+
+    on Linux/Mac, and
+
+    > make movies results_directory
+
+    on Windows.        
 
 
 """

@@ -13,10 +13,13 @@ script_Policht2021.py
 script_Policht2021.yaml
 Makefile
 make.bat
+aux/aux_figures.py
+aux/aux_movies.py
+aux/parula_colormap.dat
 
 Quick reference:
 
-SOFTWARE INSTALLATION 
+SOFTWARE INSTALLATION
 ---------------------
 The scripts require Python 3 and the Quantarhei package installed. Open the file
 "script_Policht2021.py" as a text file, and consult it for the installation
@@ -26,24 +29,24 @@ RUNNING THE SCRIPTS
 -------------------
 The simplest way to run the script is to configure the session in the first few
 lines of the file called Makefile (this applies to both Windows and Linux/Unix/Mac
-systems, although Makefile is used very differently on different systems). 
+systems, although Makefile is used very differently on different systems).
 Set the options depending on your software/hardware and use the following command:
 
 make run
 
 This again applies to all systems. On Windows Makefile is just a configuration file
 for a custom script, while on Linux/Unix/Mac it is used by a unix specific program
-called make. 
+called make.
 
 On Windows you can alternatively click on the runme.bat file to start the scripts in
-a new window. 
+a new window.
 
 More information about more control over running the scripts can be found in
 script_Policht2021.py file.
 
 CONFIGURATION AND PARAMETERS OF THE SIMULATIONS
 -----------------------------------------------
- 
+
 Consult the file "script_Policht2021.yaml" for details on the simulation
 parameters and options.
 
