@@ -26,8 +26,8 @@ rem     Settings (do not edit anything below this line)
 rem
 rem ######################################################################
 
-set MOVIES_SCRIP=aux\aux_movies.py
-set FIGURES_SCRIPT=aux\aux_figures.py
+set MOVIES_SCRIP=auxscr\aux_movies.py
+set FIGURES_SCRIPT=auxscr\aux_figures.py
 
 if %PARALLEL% == True (
    set PARALLELOPT= -p -n %NUMBER_OF_PROCESSES% -d mpiexec

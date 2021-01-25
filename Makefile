@@ -53,8 +53,8 @@ PYTHON= python
 #   DO NOT EDIT BELOW THIS LINE
 #
 
-MOVIES_SCRIP=aux/aux_movies.py
-FIGURES_SCRIPT=aux/aux_figures.py
+MOVIES_SCRIP=auxscr/aux_movies.py
+FIGURES_SCRIPT=auxscr/aux_figures.py
 
 ifeq (${LOG_FILE},)
 LOG_FILE=output.log
