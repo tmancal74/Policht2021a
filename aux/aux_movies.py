@@ -24,6 +24,9 @@ window=[10500,13550,10500,13550]
 #cmpfile = None
 cmpfile = "parula_colormap.dat"
 
+# movie format (mp4 or mov)
+movie_ext = "mov"
+
 ###############################################################################
 #
 #  END OF CONFIGURATION SECTION
@@ -117,7 +120,7 @@ for ext_i in ext:
             cont.set_spectrum(sp, tag=ntag)
             ii += 1
 
-    mfilename = "movie_"+ext[ext_i]+"_cont="+str(Ncont)+".mov"
+    mfilename = "movie_"+ext[ext_i]+"_cont="+str(Ncont)+"."+movie_ext
     print("Exporting movie: ", mfilename)
     #
     # make a united movie
