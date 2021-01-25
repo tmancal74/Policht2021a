@@ -169,60 +169,6 @@ print("\nUsing Quantarhei version", qr.Manager().version)
 input_file = "script_Policht2021.yaml"
 INP = qr.Input(input_file, show_input=False)
 
-def find_usecases(inpt):
-    """Finds replacements for values defined in the input file
-
-    This function deplaces values of some input parameters by the values
-    predefined in the "define_usecases" construct.
-
-    Parameters
-    ----------
-
-    inpt: input
-        The input object constructed from the configuration file.
-
-    """
-    defined_usecases = inpt.define_usecases["usecases"]
-    definitions = inpt.define_usecases["definitions"]
-    du_Number = len(defined_usecases)
-    print()
-    print("Found", du_Number, "defined usecase(s)")
-    for duname in defined_usecases:
-        #print("Usecase", "'"+duname+"'","has possible values:")
-        defs = definitions[duname]["values"]
-        vars = definitions[duname]["variables"]
-        cass = definitions[duname]["cases"]
-        for df in defs:
-            #print(df,":")
-            kk = 0
-            for var in vars:
-                #print(var, "=", cass[df][kk])
-                kk += 1
-
-        try:
-            usecase_value = getattr(inpt, duname)
-        except:
-            usecase_value = None
-
-        if usecase_value is not None:
-            print()
-            print("Replacing for usecase:", duname)
-            print("with the value of:", usecase_value)
-            kk = 0
-            for var in vars:
-                print(var, "=", cass[usecase_value][kk])
-                setattr(inpt, var, cass[usecase_value][kk])
-                kk += 1
-
-
-find_usecases(INP)
-
-#print()
-#print("Current usecase settings:")
-#print("single_realization =", INP.single_realization)
-#print("disorder           =", INP.disorder)
-#qr.exit()
-
 ################################################################################
 ################################################################################
 #
