@@ -62,7 +62,7 @@ Ncont = 10
 window=[10500,13550,10500,13550]
 
 #cmpfile = None
-cmpfile = "parula_colormap.dat" #"parula_colormap.mat"
+cmpfile = os.path.join("aux", "parula_colormap.dat") #"parula_colormap.mat"
 
 ###############################################################################
 #
