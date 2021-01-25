@@ -50,7 +50,7 @@
 # The three use cases are defined later in this file.
 # Specify which use case to use here.
 # Possible values are: single, disorder, scan
-usecase: disorder
+simulation_mode: scan
 
 #
 ################################################################################
@@ -391,27 +391,38 @@ copy_input_file_to_results : True
 #  THE MAIN SCRIPT USE CASES:
 #  --------------------------
 
-#
-#  1. single realization \omega_2 map
-#
-#     single_realization: True
-#     disorder: False
-#
-define_usecase:
-  name: single
-  variables: ["single_realization", "disorder"]
-  values: [True, False]
+define_usecases:
+    usecases: ["simulation_mode"]
+    definitions:
+        # definition of the usecase simulation_mode
+        simulation_mode:
+            #
+            #  1. single realization \omega_2 map
+            #
+            #     single_realization: True
+            #     disorder: False
+            #
+            #
+            #  2. averaging over static disorder
+            #
+            #     single_realization: False
+            #     disorder: True
+            #
+            #
+            #  3. energy gap scan
+            #
+            #     single_realization: False
+            #     disorder: False
+            #
+            values: ["single", "disorder", "scan"]
+            variables: ["single_realization", "disorder"]
+            cases:
+                single: [True, False]
+                disorder: [False, True]
+                scan: [False, False]
 
-#
-#  2. averaging over static disorder
-#
-#     single_realization: False
-#     disorder: True
-#
-define_usecase:
-  name: disorder
-  variables: ["single_realization", "disorder"]
-  values: [False, True]
+
+
 
 #
 #  3. energy gap scan
@@ -419,10 +430,7 @@ define_usecase:
 #     single_realization: False
 #     disorder: False
 #
-define_usecase:
-  name: scan
-  variables: ["single_realizaton", "disorder"]
-  values: [False, False]
+
 
 ###############################################################################
 
