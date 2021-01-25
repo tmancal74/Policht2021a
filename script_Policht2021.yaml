@@ -44,13 +44,11 @@
 #     of 2D spectrum according to the model parameters specified in this file,
 #     with varying energy gap between special pair and  B molecules.
 #
-################################################################################
 #
-
-# The three use cases are defined later in this file.
-# Specify which use case to use here.
+# The three use cases are defined later in this file to be configured thorough
+# the keyword "simulation_mode". Specify which use case to use below.
 # Possible values are: single, disorder, scan
-simulation_mode: scan
+simulation_mode: single
 
 #
 ################################################################################
@@ -165,7 +163,6 @@ simulation_mode: scan
 #             ---------         ---------
 #
 #
-#
 #-------------------------------------------------------------------------------
 #
 #       Trimer:
@@ -189,6 +186,7 @@ simulation_mode: scan
 #       Eg = 0
 #         --------------  --------------     .............   ..............
 #
+#
 #-------------------------------------------------------------------------------
 #
 #  Other parameters of the script
@@ -203,6 +201,31 @@ simulation_mode: scan
 #  and runs for a number of steps specified by the parameter "t2_time_step",
 #  with the step length given by the parameter "t2_time_step". All values of
 #  times are in femto seconds (fs).
+#
+#  Two dimensional spectrum is calculated by Fourier transforms in two coherence
+#  times, t1 and t3, which are defined by keywords t1_N_steps and t1_time_step,
+#  and t3_N_steps and t3_time_step. The first (t1_N_steps) of the two parameters
+#  specifies the number of steps in time t1 and the second (t1_time_step) speci-
+#  fies the size of the step in time t1. Time t3 is described analogically.
+#
+#  Parameters "feature_width" and "feature_width2" specify the Gaussian full
+#  width at half maximum of the absorption spectrum of the molecules as monomers
+#  (i.e. in the case they are not coupled to the other members of
+#  the aggregate). feature_width2 corresponds to the molecules of the special
+#  pair, while feature_width specifies absorption spectrum width of
+#  the B molecule. Parameter "tukey_window_r" is the parameter r of the Tukey
+#  windowing function used for the FFT in t2 time.
+#
+#  "trim_maps_to" allows us to specify the size of the spectral window for
+#  which the spectra are calculated.
+#
+#  "omega_uncertainty" is the widths of the frequency window around the
+#  frequency of the nuclear vibrational mode, which is allowed to contribute
+#  to the \omega_2 maps. We choose only pathways which oscillate within this
+#  window.
+#
+#  The remaining parameters concern averaging over disorder and scanning
+#  energy gap between the special pair and B molecule in the reaction center.
 #
 
 ################################################################################
@@ -292,6 +315,9 @@ t3_time_step        : 10.0  # fs
 feature_width       : 100.0 # 1/cm
 feature_width2      : 200.0
 
+# Tukey window parameter
+tukey_window_r      : 0.3
+
 # trim maps to this spectral region
 trim_maps_to        : [11000, 14000, 11000, 14000]  # 1/cm
 
@@ -299,9 +325,6 @@ trim_maps_to        : [11000, 14000, 11000, 14000]  # 1/cm
 # select only pathways, which fall within +/- omega_uncertaity/2
 #
 omega_uncertainty   : 10.0 # 1/cm
-
-# Tukey window parameter
-tukey_window_r      : 0.3
 
 ###############################################################################
 #
@@ -421,17 +444,7 @@ define_usecases:
                 disorder: [False, True]
                 scan: [False, False]
 
-
-
-
-#
-#  3. energy gap scan
-#
-#     single_realization: False
-#     disorder: False
-#
-
-
+###############################################################################
 ###############################################################################
 
 #
