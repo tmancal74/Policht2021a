@@ -10,7 +10,7 @@
 PARALLEL=False
 
 # number of processes to start (has no effect if PARALLEL=False)
-NUMBER_OF_PROCESSES=4
+NUMBER_OF_PROCESSES=1
 
 # run in the background
 BACKGROUND=False

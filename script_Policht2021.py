@@ -79,10 +79,10 @@
 
     into your terminal, you should get a message similar to
 
-    Quantarhei package version:  0.0.63
+    Quantarhei package version:  0.0.64
 
-    This means that the Quantarhei package of version 0.0.63 is present. Version
-    number 0.0.63 is the minimum requirement to run the scripts. Newer versions
+    This means that the Quantarhei package of version 0.0.64 is present. Version
+    number 0.0.64 is the minimum requirement to run the scripts. Newer versions
     should give you the same results. Should the syntax of quantarhei commands
     change during future development, this script would likely fail. Try to get
     an updated version by typing the following on the command line:
@@ -169,7 +169,7 @@
 
     > make movies results_directory
 
-    on Windows.        
+    on Windows.
 
 
 """
