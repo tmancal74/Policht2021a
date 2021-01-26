@@ -5,26 +5,19 @@
 #  (Details of Makefile usage below the settings)
 #
 ################################################################################
-# run simulation in parallel
-# (mpi4py Python package and MPI have to be installed)
-PARALLEL=False
 
-# number of processes to start (has no effect if PARALLEL=False)
-NUMBER_OF_PROCESSES=1
+# number of processes to start (if > 1, mpi4py Python package and MPI have
+# to be installed and the simulation will run in parallel)
+NUMBER_OF_PROCESSES=1 
 
 # run in the background
-BACKGROUND=False
+BACKGROUND=True
 
-# save the output to a file
-SAVE_OUTPUT=False
-
-# filename to save output to (default is output.log);
-# has no effect if SAVE_OUTPUT=False
+# filename to save output to (if BACKGROUND=True the default is output.log);
 LOG_FILE=log
 
 # change this to your python interpreter
 PYTHON= python
-
 
 ################################################################################
 #
@@ -53,6 +46,13 @@ PYTHON= python
 #   DO NOT EDIT BELOW THIS LINE
 #
 
+
+# remove SAVE_OUTPUT and PARALLEL and make them consitent with LOG_FILE and NUMBER_OF_PROCESSES, respectively
+
+PARALLEL=False
+# save the output to a file
+SAVE_OUTPUT=True
+
 MOVIES_SCRIP=auxscr/aux_movies.py
 FIGURES_SCRIPT=auxscr/aux_figures.py
 
@@ -65,9 +65,9 @@ ifeq (${PARALLEL},True)
 PARALLELOPT= -p -n ${NUMBER_OF_PROCESSES}
 endif
 
-ifeq (${PARALLEL},False)
-NUMBER_OF_PROCESSES=1
-endif
+#ifeq (${PARALLEL},False)
+#NUMBER_OF_PROCESSES=1
+#endif
 
 LOGGING=
 ifeq (${SAVE_OUTPUT},True)
