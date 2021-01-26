@@ -8,7 +8,7 @@
 
 # Number of processes to start (if > 1, mpi4py Python package and MPI have
 # to be installed for the simulation to run in parallel)
-NUMBER_OF_PROCESSES=4 
+NUMBER_OF_PROCESSES=4
 
 # run in the background
 BACKGROUND=False
@@ -46,14 +46,14 @@ PYTHON= python
 #   DO NOT EDIT BELOW THIS LINE
 #
 
-SCRDIR=auxscr
+SCRDIR=scr
 MOVIES_SCRIP=${SCRDIR}/aux_movies.py
 FIGURES_SCRIPT=${SCRDIR}/aux_figures.py
 
 # set PARALLEL depending on the number of required processes
 ifeq ($(shell test ${NUMBER_OF_PROCESSES} -gt 1; echo $$?),0)
 PARALLEL=True
-else 
+else
 PARALLEL=False
 endif
 
@@ -123,7 +123,7 @@ all: help
 	@echo Will run in parallel: \(PARALLEL=\) ${PARALLEL}
 	@echo Output will be saved: \(SAVE_OUTPUT=\) ${SAVE_OUTPUT}
 	@echo
-	
+
 # help message
 help:
 	@echo
@@ -190,7 +190,7 @@ movies:
 
 # creates a tar ball with all the files required to run simulations (Unix/Linux/macOS only feature)
 pack:
-	tar cf script_policht2021.tar aux make.bat Makefile parula_colormap.dat
+	tar cf script_policht2021.tar ${SCRDIR} make.bat Makefile
 	tar rf script_policht2021.tar README.txt runme.bat script_Policht2021.*
 
 ################################################################################

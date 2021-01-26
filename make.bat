@@ -26,7 +26,7 @@ rem     Settings (do not edit anything below this line)
 rem
 rem ######################################################################
 
-set SCRDIR=auxscr
+set SCRDIR=scr
 set MOVIES_SCRIP=%SCRDIR%\aux_movies.py
 set FIGURES_SCRIPT=%SCRDIR%\aux_figures.py
 
@@ -37,10 +37,10 @@ if %NUMBER_OF_PROCESSES% gtr 0 (
    set PARALLEL=False
 )
 
-rem test MPI presence 
+rem test MPI presence
 set MPI_REPORT= MPI presence not tested
 if %PARALLEL%==True (
-   %PYTHON% %SCRDIR%\probe_mpi.py 
+   %PYTHON% %SCRDIR%\probe_mpi.py
    if %ERRORLEVEL% geq 1 (
       set MPI_REPORT= MPI not found ^(mpi4py package or MPI implementation is missing^)
       set PARALLEL=False
@@ -60,7 +60,7 @@ if [%LOG_FILE%] == [] (
 if %PARALLEL% == True (
    set PARALLELOPT= -p -n %NUMBER_OF_PROCESSES% -d mpiexec
 ) else (
-   set PARALLELOPT= 
+   set PARALLELOPT=
 )
 
 if %BACKGROUND% == True (

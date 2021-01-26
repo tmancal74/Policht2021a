@@ -13,9 +13,10 @@ script_Policht2021.py
 script_Policht2021.yaml
 Makefile
 make.bat
-aux/aux_figures.py
-aux/aux_movies.py
-aux/parula_colormap.dat
+scr/aux_figures.py
+scr/aux_movies.py
+scr/parula_colormap.dat
+scr/probe_mpi.py
 
 Quick reference:
 

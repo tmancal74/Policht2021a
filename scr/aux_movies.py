@@ -22,7 +22,7 @@ Ncont = 10
 window=[10500,13550,10500,13550]
 
 #cmpfile = None
-cmpfile = os.path.join("auxscr","parula_colormap.dat")
+cmpfile = os.path.join("scr","parula_colormap.dat")
 
 # movie format (mp4 or mov)
 movie_ext = "mov"
