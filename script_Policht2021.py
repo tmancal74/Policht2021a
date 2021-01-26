@@ -66,11 +66,16 @@
     installed.On Windows, we recommand to install Microsoft's implementation of
     the MPI, which can be found at
     https://docs.microsoft.com/en-us/message-passing-interface/microsoft-mpi
+    
+    To produce movies and figures out of the data, your system needs to have
+    Latex installed. 
+    On Mac, look for MaxTex (https://www.tug.org/mactex/mactex-download.html),
+    Windows systems work well with MiKTex (https://miktex.org/download).
 
     To produce movies, ffmpeg program is required. Although there is a package
     called ffmpeg in conda, on some platforms (on Mac and Windows) it seems to
     be easier to install ffmpeg independentently of Python. The program has to
-    be in your system's path.
+    be in your system's path. 
 
     4. Once Quantarhei package is installed, test its presence on your computer.
     If you type:

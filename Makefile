@@ -6,15 +6,15 @@
 #
 ################################################################################
 
-# number of processes to start (if > 1, mpi4py Python package and MPI have
-# to be installed and the simulation will run in parallel)
-NUMBER_OF_PROCESSES=1 
+# Number of processes to start (if > 1, mpi4py Python package and MPI have
+# to be installed for the simulation to run in parallel)
+NUMBER_OF_PROCESSES=4 
 
 # run in the background
-BACKGROUND=True
+BACKGROUND=False
 
 # filename to save output to (if BACKGROUND=True the default is output.log);
-LOG_FILE=log
+LOG_FILE=
 
 # change this to your python interpreter
 PYTHON= python
@@ -46,15 +46,35 @@ PYTHON= python
 #   DO NOT EDIT BELOW THIS LINE
 #
 
+SCRDIR=auxscr
+MOVIES_SCRIP=${SCRDIR}/aux_movies.py
+FIGURES_SCRIPT=${SCRDIR}/aux_figures.py
 
-# remove SAVE_OUTPUT and PARALLEL and make them consitent with LOG_FILE and NUMBER_OF_PROCESSES, respectively
-
+# set PARALLEL depending on the number of required processes
+ifeq ($(shell test ${NUMBER_OF_PROCESSES} -gt 1; echo $$?),0)
+PARALLEL=True
+else 
 PARALLEL=False
-# save the output to a file
-SAVE_OUTPUT=True
+endif
 
-MOVIES_SCRIP=auxscr/aux_movies.py
-FIGURES_SCRIPT=auxscr/aux_figures.py
+#probe MPI presence if it is required
+MPI_REPORT= MPI presence not tested
+ifeq (${PARALLEL},True)
+ifeq ($(shell ${PYTHON} ${SCRDIR}/probe_mpi.py; echo $$?),0)
+MPI_REPORT= MPI probed with success!
+PARALLEL=True
+else
+MPI_REPORT= MPI not found \(mpi4py package or MPI implementation is missing\)
+PARALLEL=False
+endif
+endif
+
+# set SAVE_OUTPUT to True if a LOG_FILE is set
+ifeq (${LOG_FILE},)
+SAVE_OUTPUT=False
+else
+SAVE_OUTPUT=True
+endif
 
 ifeq (${LOG_FILE},)
 LOG_FILE=output.log
@@ -64,10 +84,6 @@ PARALLELOPT=
 ifeq (${PARALLEL},True)
 PARALLELOPT= -p -n ${NUMBER_OF_PROCESSES}
 endif
-
-#ifeq (${PARALLEL},False)
-#NUMBER_OF_PROCESSES=1
-#endif
 
 LOGGING=
 ifeq (${SAVE_OUTPUT},True)
@@ -94,7 +110,20 @@ PIPE= ${LOGGING} ${AMPRS}
 
 # default task
 all: help
-
+	@echo
+	@echo Current settings:
+	@echo -----------------
+	@echo
+	@echo NUMBER_OF_PROCESSES=${NUMBER_OF_PROCESSES}
+	@echo ${MPI_REPORT}
+	@echo BACKGROUND=${BACKGROUND}
+	@echo LOG_FILE=${LOG_FILE}
+	@echo PYTHON=${PYTHON}
+	@echo
+	@echo Will run in parallel: \(PARALLEL=\) ${PARALLEL}
+	@echo Output will be saved: \(SAVE_OUTPUT=\) ${SAVE_OUTPUT}
+	@echo
+	
 # help message
 help:
 	@echo
@@ -159,7 +188,7 @@ figures:
 movies:
 	${PYTHON} ${MOVIES_SCRIP} ${DIR} ${NUMBER_OF_PROCESSES}
 
-# creates a tar ball with all the files required to run simulations
+# creates a tar ball with all the files required to run simulations (Unix/Linux/macOS only feature)
 pack:
 	tar cf script_policht2021.tar aux make.bat Makefile parula_colormap.dat
 	tar rf script_policht2021.tar README.txt runme.bat script_Policht2021.*

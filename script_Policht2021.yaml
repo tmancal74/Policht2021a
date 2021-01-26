@@ -48,7 +48,8 @@
 # The three use cases are defined later in this file to be configured thorough
 # the keyword "simulation_mode". Specify which use case to use below.
 # Possible values are: single, disorder, scan
-simulation_mode: disorder
+
+simulation_mode: scan 
 
 #
 ################################################################################

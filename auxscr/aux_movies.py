@@ -128,7 +128,7 @@ for ext_i in ext:
     with qr.energy_units("1/cm"):
         cont.make_movie(mfilename, cmap=cmap,
         spart=qr.part_ABS, Npos_contours=Ncont, label_func=label_func,
-        show_states_func=show_states_func)
+        show_states_func=show_states_func, dpi=50)
     print("...done\n")
 
 print("... finished")
