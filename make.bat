@@ -12,9 +12,7 @@ rem
 rem #######################################################################
 
 for /f "tokens=1,2 delims==" %%a in (Makefile) do (
-if %%a==PARALLEL set PARALLEL=%%b
 if %%a==NUMBER_OF_PROCESSES set NUMBER_OF_PROCESSES=%%b
-if %%a==SAVE_OUTPUT set SAVE_OUTPUT=%%b
 if %%a==LOG_FILE set LOG_FILE=%%b
 if %%a==BACKGROUND set BACKGROUND=%%b
 if %%a==PYTHON set PYTHON=%%b
@@ -31,7 +29,7 @@ set MOVIES_SCRIP=%SCRDIR%\aux_movies.py
 set FIGURES_SCRIPT=%SCRDIR%\aux_figures.py
 
 rem use NUMBER_OF_PROCESSES to set PARALLEL
-if %NUMBER_OF_PROCESSES% gtr 0 (
+if %NUMBER_OF_PROCESSES% gtr 1 (
    set PARALLEL=True
 ) else (
    set PARALLEL=False
@@ -42,7 +40,7 @@ set MPI_REPORT= MPI presence not tested
 if %PARALLEL%==True (
    %PYTHON% %SCRDIR%\probe_mpi.py
    if %ERRORLEVEL% geq 1 (
-      set MPI_REPORT= MPI not found ^(mpi4py package or MPI implementation is missing^)
+      set MPI_REPORT=MPI not found: mpi4py package or MPI implementation missing
       set PARALLEL=False
    ) else (
       set MPI_REPORT= MPI probed with success!
@@ -51,6 +49,7 @@ if %PARALLEL%==True (
 )
 
 rem set SAVE_OUTPUT depending on LOG_FILE
+
 if [%LOG_FILE%] == [] (
    set SAVE_OUTPUT=False
 ) else (
@@ -177,6 +176,19 @@ rem    Help message
    echo ^> make del
    echo.
    echo     Deletes media files created by scripts
+   echo.
+   echo.
+   echo Current settings:
+   echo -----------------
+   echo.
+   echo NUMBER_OF_PROCESSES=%NUMBER_OF_PROCESSES%
+   echo %MPI_REPORT%
+   echo BACKGROUND=%BACKGROUND%
+   echo LOG_FILE=%LOG_FILE%
+   echo PYTHON=%PYTHON%
+   echo.
+   echo Will run in parallel: ^(PARALLEL=^) %PARALLEL%
+   echo Output will be saved: ^(SAVE_OUTPUT=^) %SAVE_OUTPUT%
    echo.
 )
 rem ##################################################################################

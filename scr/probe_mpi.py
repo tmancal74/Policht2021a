@@ -37,9 +37,10 @@ except:
     return_value = 1
     
 # Test for MPI's mpirun or mpiexec
-if _try_cmd("mpirun --version") or _try_cmd("mpiexec --version"):
+if _try_cmd("mpirun --version") or _try_cmd("mpiexec"):
     return_value = 0
 else:
+    print("mpirun/mpiexec missing")
     return_value = 1
 
 sys.exit(return_value)

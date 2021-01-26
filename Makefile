@@ -8,7 +8,7 @@
 
 # Number of processes to start (if > 1, mpi4py Python package and MPI have
 # to be installed for the simulation to run in parallel)
-NUMBER_OF_PROCESSES=4
+NUMBER_OF_PROCESSES=1
 
 # run in the background
 BACKGROUND=False
@@ -76,10 +76,6 @@ else
 SAVE_OUTPUT=True
 endif
 
-ifeq (${LOG_FILE},)
-LOG_FILE=output.log
-endif
-
 PARALLELOPT=
 ifeq (${PARALLEL},True)
 PARALLELOPT= -p -n ${NUMBER_OF_PROCESSES}
@@ -94,7 +90,7 @@ AMPRS=
 ifeq (${BACKGROUND},True)
 AMPRS=&
 ifeq (${LOGGING},)
-LOGGING= > ${LOG_FILE} 2>&1
+LOGGING= > output.log 2>&1
 endif
 endif
 
