@@ -144,13 +144,17 @@ help:
 	@echo
 	@echo "> make figures DIR=results_directory"
 	@echo
-	@echo "    Produces 2D omega_2 map figures from simulation results "
-	@echo "    stored in the results_directory "
-	@echo
+	@echo "    Produces 2D omega_2 map figures from the simulation "
+	@echo "    which ran in the simulation mode 'single' or 'disorder'"
+	@echo "    (see configureation yaml file). results_directory is "
+	@echo "    the directory containing results of Quantarhei simulation."
+ 	@echo
 	@echo "> make movies DIR=results_directory"
 	@echo
-	@echo "    Produces movies for the energy gap scan from simulation results "
-	@echo "    stored in the results_directory "
+	@echo "    Produces movies for the energy gap scan from the simulation "
+	@echo "    which ran in the simulation mode 'scan'"
+	@echo "    (see configureation yaml file). results_directory is"
+	@echo "    the directory containing results of Quantarhei simulation."
 	@echo
 	@echo "> make clean "
 	@echo

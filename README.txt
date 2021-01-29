@@ -40,7 +40,8 @@ for a custom script, while on Linux/Unix/Mac it is used by a unix specific progr
 called make.
 
 On Windows you can alternatively click on the runme.bat file to start the scripts in
-a new window.
+a new window. Path to you Python interpreter has to be set on your system for this 
+feature to work.
 
 More information about more control over running the scripts can be found in
 script_Policht2021.py file.
