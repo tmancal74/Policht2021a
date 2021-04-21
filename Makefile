@@ -49,6 +49,7 @@ PYTHON= python
 SCRDIR=scr
 MOVIES_SCRIP=${SCRDIR}/aux_movies.py
 FIGURES_SCRIPT=${SCRDIR}/aux_figures.py
+VALIDATION_SCRIPT=${SCRDIR}/validate.py
 
 # set PARALLEL depending on the number of required processes
 ifeq ($(shell test ${NUMBER_OF_PROCESSES} -gt 1; echo $$?),0)
@@ -206,6 +207,10 @@ set_test_disorder: back
 	
 set_test_scan: back
 	cp templates/script_Policht2021_test_scan.yaml ./script_Policht2021.yaml
+
+validate:
+	${PYTHON} ${VALIDATION_SCRIPT} ${DIR}
+
 
 ################################################################################
 # EOF
