@@ -167,11 +167,11 @@ help:
 
 # delete results from all previous runs
 clean:
-	rm -rf sim* log output.log *.tar
+	rm -rf sim* log output.log *.tar 
 
 # delete media produced by auxiliary scripts
 del:
-	rm -rf *.png *.mov *.mp4
+	rm -rf *.png *.mov *.mp4 *.bak
 
 # delete everything
 purge: clean del
@@ -192,6 +192,20 @@ movies:
 pack:
 	tar cf script_policht2021.tar ${SCRDIR} make.bat Makefile
 	tar rf script_policht2021.tar README.txt runme.bat script_Policht2021.*
+	
+back:
+ifneq ("$(wildcard script_Policht2021.yaml)","")
+	mv script_Policht2021.yaml script_Policht2021.yaml.bak
+endif
+
+set_test_single: back
+	cp templates/script_Policht2021_test_single.yaml ./script_Policht2021.yaml
+
+set_test_disorder: back
+	cp templates/script_Policht2021_test_disorder.yaml ./script_Policht2021.yaml
+	
+set_test_scan: back
+	cp templates/script_Policht2021_test_scan.yaml ./script_Policht2021.yaml
 
 ################################################################################
 # EOF
