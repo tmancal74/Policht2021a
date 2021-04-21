@@ -78,5 +78,6 @@ if OK:
     print("\nValidation completed sucessfully!!!\n")
 else:
     print("\nValidation failed!!!\n")
+    sys.exit(-1)
     
 
