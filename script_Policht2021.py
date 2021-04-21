@@ -260,6 +260,40 @@ def save_containers(cont, dname, node=0):
     fname = os.path.join(dname, name4)
     cont_m_nr.savedir(fname)
 
+def save_spectra(cont, ext="dat", dir=".", stype=qr.signal_TOTL):
+    # saving total spectra
+    drnm = os.path.join(dir, "spectra")
+    try:
+        os.makedirs(drnm)
+    except FileExistsError:
+        # directory already exists
+        pass
+    scont = cont.get_TwoDSpectrumContainer(stype=stype)
+    tags = scont.tags
+    for tg in tags:
+        #sp.plot(show=True)
+        sp = scont.get_spectrum(tag=tg)
+        flnm = os.path.join(drnm, "sp_"+str(tg)+"."+ext)
+        fgrn = os.path.join(drnm, "sp_"+str(tg)+".png")
+        sp.plot(show=False)
+        sp.savefig(fgrn)
+        plt.close()
+        print("Saving "+flnm)
+        sp.save_data(flnm)
+        if ext == "dat":
+            _data = numpy.loadtxt(flnm, dtype=complex)
+            print("max=", numpy.max(_data))
+
+    try:
+        save_cont = INP.total_spectrum["native_container"]
+    except:
+        save_cont = False
+
+    if save_cont:
+        cont.save(os.path.join(dir, "spectra_container.qrp"))
+        
+
+
 def save_averages(cont, dname):
     """Saves disorder averaged spectra
 
@@ -366,12 +400,17 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
     with qr.energy_units("1/cm"):
 
         if not use_trimer:
-
-            mol1 = qr.Molecule([0.0, E0])
-            mol2 = qr.Molecule([0.0, E0+dE])
-            print("Monomer 1 energy:", E0, "1/cm")
-            print("Monomer 2 energy:", E0+dE, "1/cm")
-
+            
+            if disE is not None:
+                mol1 = qr.Molecule([0.0, E0+disE[0]])
+                mol2 = qr.Molecule([0.0, E0+dE+disE[1]])
+                print("Monomer 1 energy:", E0+disE[0], "1/cm")
+                print("Monomer 2 energy:", E0+dE+disE[1], "1/cm")
+            else:
+                mol1 = qr.Molecule([0.0, E0])
+                mol2 = qr.Molecule([0.0, E0+dE])
+                print("Monomer 1 energy:", E0, "1/cm")
+                print("Monomer 2 energy:", E0+dE, "1/cm")
         else:
 
             if disE is not None:
@@ -415,7 +454,7 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
     else:
 
         with qr.energy_units("1/cm"):
-            agg.set_resonance_coupling(0,1,JJ, "1/cm")
+            agg.set_resonance_coupling(0,1,JJ)
 
     #
     # Electronic only aggregate
@@ -489,12 +528,14 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
     #
     cont_p = qr.TwoDResponseContainer(t2axis=time2)
     cont_m = qr.TwoDResponseContainer(t2axis=time2)
+    cont_tot = qr.TwoDResponseContainer(t2axis=time2)
 
     #
     # spectra will be indexed by the times in the time axis `time2`
     #
     cont_p.use_indexing_type(time2)
     cont_m.use_indexing_type(time2)
+    cont_tot.use_indexing_type(time2)
 
     #
     # We define two-time axes, which will be FFTed and will define
@@ -520,18 +561,22 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
     operators = []
     rates = []
 
-    if use_trimer:
+    if True: #use_trimer:
 
         print("Relaxation rates: ", rate, rate_sp, "1/fs")
 
         with qr.eigenbasis_of(He):
-            if He.data[3,3] < He.data[2,2]:
-                Exception("Electronic states not orderred!")
-            operators.append(qr.qm.ProjectionOperator(2, 3, dim=He.dim))
-            with qr.energy_units("1/cm"):
-                print("2<-3 : energies = ", He.data[2,2], He.data[3,3], "1/cm")
-            rates.append(rate)
-            print("Transfer time B -> SP:", 1.0/rate, "fs")
+            
+            if use_trimer:
+                if He.data[3,3] < He.data[2,2]:
+                    Exception("Electronic states not orderred!")
+                operators.append(qr.qm.ProjectionOperator(2, 3, dim=He.dim))
+                with qr.energy_units("1/cm"):
+                    print("2<-3 : energies = ", He.data[2,2], He.data[3,3], "1/cm")
+                rates.append(rate)
+                print("Transfer time B -> SP:", 1.0/rate, "fs")
+            
+            
             if He.data[2,2] < He.data[1,1]:
                 Exception("Electronic states not orderred!")
             operators.append(qr.qm.ProjectionOperator(1, 2, dim=He.dim))
@@ -542,21 +587,14 @@ def run(omega, HR, dE, JJ, rate, E0, vib_loc="up", use_vib=True,
 
         # include detailed balace
         if detailed_balance:
-            with qr.eigenbasis_of(He):
-                T = temperature #77.0
-                Den = (He.data[3,3] - He.data[2,2])/(kB_int*T)
-                operators.append(qr.qm.ProjectionOperator(3, 2, dim=He.dim))
-                thermal_fac = numpy.exp(-Den)
-            rates.append(rate*thermal_fac)
-        else:
-            with qr.eigenbasis_of(He):
-                if He.data[2,2] < He.data[1,1]:
-                    Exception("Electronic states not orderred!")
-                operators.append(qr.qm.ProjectionOperator(1, 2, dim=He.dim))
-            rates.append(rate)
+            if use_trimer:
+                with qr.eigenbasis_of(He):
+                    T = temperature #77.0
+                    Den = (He.data[3,3] - He.data[2,2])/(kB_int*T)
+                    operators.append(qr.qm.ProjectionOperator(3, 2, dim=He.dim))
+                    thermal_fac = numpy.exp(-Den)
+                rates.append(rate*thermal_fac)
 
-        # include detailed balace
-        if detailed_balance:
             with qr.eigenbasis_of(He):
                 T = temperature #77.0
                 Den = (He.data[2,2] - He.data[1,1])/(kB_int*T)
@@ -919,10 +957,15 @@ for model in models:
             (JJ, dE, trimer) = ptns[0]
 
             qr.timeit(show_stamp=True)
+            
+            if use_trimer:
+                Nst = 3
+            else:
+                Nst = 2
 
             Nreal = INP.N_realizations
             data_initialized = False
-            disM = numpy.zeros((3,Nreal))
+            disM = numpy.zeros((Nst,Nreal))
             sigma = INP.disorder_fwhm/(2.0*numpy.sqrt(2.0*numpy.log(2.0)))
 
             if INP.random_state["reset"]:
@@ -936,19 +979,17 @@ for model in models:
                 qr.save_parcel(random_state, INP.random_state["file"])
 
             for ri in range(Nreal):
-                disM[:,ri] = sigma*numpy.random.randn(3)
+                disM[:,ri] = sigma*numpy.random.randn(Nst)
 
             #
             # PARALLEL (if ON) LOOP OVER DISORDER
             #
             for ds in qr.block_distributed_range(0,Nreal):
                 # generating random numbers
-                disE = numpy.zeros(3,dtype=qr.REAL)
+                disE = numpy.zeros(Nst,dtype=qr.REAL)
 
                 if Nreal > 1:
-                    disE[0] = disM[0,ds]
-                    disE[1] = disM[1,ds]
-                    disE[2] = disM[2,ds]
+                    disE[:] = disM[:,ds]
 
                 print("\nCalculating disordered spectra ... (",ds+1,"of",Nreal,
                       ") [run ",kk,"of",Np,"]")

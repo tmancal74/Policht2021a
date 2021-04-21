@@ -148,7 +148,7 @@ help:
 	@echo "    which ran in the simulation mode 'single' or 'disorder'"
 	@echo "    (see configureation yaml file). results_directory is "
 	@echo "    the directory containing results of Quantarhei simulation."
- 	@echo
+	@echo
 	@echo "> make movies DIR=results_directory"
 	@echo
 	@echo "    Produces movies for the energy gap scan from the simulation "
