@@ -172,7 +172,7 @@ clean:
 
 # delete media produced by auxiliary scripts
 del:
-	rm -rf *.png *.mov *.mp4 *.bak
+	rm -rf *.png *.mov *.mp4 *.bak random_state.qrp
 
 # delete everything
 purge: clean del
@@ -199,17 +199,37 @@ ifneq ("$(wildcard script_Policht2021.yaml)","")
 	mv script_Policht2021.yaml script_Policht2021.yaml.bak
 endif
 
+#
+# Input files for testing 
+#
 set_test_single: back
 	cp templates/script_Policht2021_test_single.yaml ./script_Policht2021.yaml
 
 set_test_disorder: back
 	cp templates/script_Policht2021_test_disorder.yaml ./script_Policht2021.yaml
+	cp templates/data_test_disorder/random_state.qrp ./
 	
 set_test_scan: back
 	cp templates/script_Policht2021_test_scan.yaml ./script_Policht2021.yaml
 
+#
+# Validation of test runs against stored data
+#
 validate:
 	${PYTHON} ${VALIDATION_SCRIPT} ${DIR}
+	
+	
+#
+# Input files for example runs
+#
+set_example_single: back
+	cp templates/script_Policht2021_example_single.yaml ./script_Policht2021.yaml
+	
+set_example_disorder: back
+	cp templates/script_Policht2021_example_disorder.yaml ./script_Policht2021.yaml
+	
+set_example_scan: back
+	cp templates/script_Policht2021_example_scan.yaml ./script_Policht2021.yaml
 
 
 ################################################################################

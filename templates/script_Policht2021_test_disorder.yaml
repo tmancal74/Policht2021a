@@ -375,7 +375,7 @@ restart_disorder: False
 
 # starting parameters of the random distribution of energies
 random_state:
-  reset: False            # reset the random generator from a saved state
+  reset: True            # reset the random generator from a saved state
   save: False             # save the last random state
   file: random_state.qrp  # file to save/read random state from
 
