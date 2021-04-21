@@ -168,11 +168,11 @@ help:
 
 # delete results from all previous runs
 clean:
-	rm -rf sim* log output.log *.tar 
+	rm -rf sim* log output.log *.tar *.bak random_state.qrp
 
 # delete media produced by auxiliary scripts
 del:
-	rm -rf *.png *.mov *.mp4 *.bak random_state.qrp
+	rm -rf *.png *.mov *.mp4 *.log
 
 # delete everything
 purge: clean del
@@ -211,6 +211,29 @@ set_test_disorder: back
 	
 set_test_scan: back
 	cp templates/script_Policht2021_test_scan.yaml ./script_Policht2021.yaml
+
+
+test_single: set_test_single
+	make run
+	make validate
+	make clean
+	@echo test_single ended with success > test.log
+
+test_disorder: set_test_disorder
+	make run
+	make validate
+	make clean
+	@echo test_disorder ended with success >> test.log
+	
+test_scan: set_test_scan
+	make run 
+	make validate
+	make clean
+	@echo test_scan enden with success >> test.log
+
+test: purge test_single test_disorder test_scan
+	
+	
 
 #
 # Validation of test runs against stored data

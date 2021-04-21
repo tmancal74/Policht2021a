@@ -1,9 +1,12 @@
 import sys
 import os
+import glob
 
 import numpy
 
 import quantarhei as qr
+
+scan_for_dir = True
 
 print("\nVerifying test calculations")
 print("---------------------------")
@@ -16,7 +19,16 @@ smode = INP.simulation_mode
 print("Simulation mode:", smode)
 
 try:
-    target_dir = sys.argv[1]
+    if scan_for_dir:
+        list_of_files = glob.glob('./*')
+        list_of_directories = []
+        for fl in list_of_files:
+            if os.path.isdir(fl):
+                list_of_directories.append(fl)
+        target_dir = max(list_of_directories, key=os.path.getctime)
+    else:
+        target_dir = sys.argv[1]
+    
 except:
     print("Simulation output directory not specified")
     qr.exit()

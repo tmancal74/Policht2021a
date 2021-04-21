@@ -49,7 +49,7 @@
 # the keyword "simulation_mode". Specify which use case to use below.
 # Possible values are: single, disorder, scan
 
-simulation_mode: disorder 
+simulation_mode: scan 
 
 #
 ################################################################################
@@ -375,7 +375,7 @@ restart_disorder: False
 
 # starting parameters of the random distribution of energies
 random_state:
-  reset: True            # reset the random generator from a saved state
+  reset: False            # reset the random generator from a saved state
   save: False             # save the last random state
   file: random_state.qrp  # file to save/read random state from
 
