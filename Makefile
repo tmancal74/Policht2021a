@@ -229,7 +229,7 @@ test_scan: set_test_scan
 	make run 
 	make validate
 	make clean
-	@echo test_scan enden with success >> test.log
+	@echo test_scan ended with success >> test.log
 
 test: purge test_single test_disorder test_scan
 	
