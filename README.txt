@@ -1,6 +1,6 @@
 This file contains information about simulation scripts for the manuscript:
 
- Veronica R. Policht, Andrew Niedringhaus, Cameron Spitzfaden,
+ Veronica R. Policht, Andrew Niedringhaus, Rhiannon Willow,
  Philip D. Laible, David F. Bocian, Christine Kirmaier, Dewey Holten,
  Tomáš Mančal and Jennifer P. Ogilvie,
  Hidden Vibronic and Excitonic Structure and Vibronic Coherence Transfer
@@ -40,7 +40,7 @@ for a custom script, while on Linux/Unix/Mac it is used by a unix specific progr
 called make.
 
 On Windows you can alternatively click on the runme.bat file to start the scripts in
-a new window. Path to you Python interpreter has to be set on your system for this 
+a new window. Path to you Python interpreter has to be set on your system for this
 feature to work.
 
 More information about more control over running the scripts can be found in
@@ -57,6 +57,6 @@ parameters and options.
 All files in this directory contain descriptions of their meaning and usage. Just
 open them as text files.
 
-Last change: January 24, 2021
+Last change: September 10, 2021
 Author: Tomas Mancal
 Email: tmancal74@gmail.com

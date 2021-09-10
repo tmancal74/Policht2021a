@@ -23,7 +23,7 @@ PYTHON= python
 #
 #  Makefile for the simulaiton scripts of the manuscript:
 #
-#  Veronica R. Policht, Andrew Niedringhaus, Cameron Spitzfaden,
+#  Veronica R. Policht, Andrew Niedringhaus, Rhiannon Willow,
 #	 Philip D. Laible, David F. Bocian, Christine Kirmaier, Dewey Holten,
 #	 Tomáš Mančal and Jennifer P. Ogilvie,
 #	 Hidden Vibronic and Excitonic Structure and Vibronic Coherence Transfer
@@ -193,14 +193,14 @@ movies:
 pack:
 	tar cf script_policht2021.tar ${SCRDIR} make.bat Makefile
 	tar rf script_policht2021.tar README.txt runme.bat script_Policht2021.*
-	
+
 back:
 ifneq ("$(wildcard script_Policht2021.yaml)","")
 	mv script_Policht2021.yaml script_Policht2021.yaml.bak
 endif
 
 #
-# Input files for testing 
+# Input files for testing
 #
 set_test_single: back
 	cp templates/script_Policht2021_test_single.yaml ./script_Policht2021.yaml
@@ -208,7 +208,7 @@ set_test_single: back
 set_test_disorder: back
 	cp templates/script_Policht2021_test_disorder.yaml ./script_Policht2021.yaml
 	cp templates/data_test_disorder/random_state.qrp ./
-	
+
 set_test_scan: back
 	cp templates/script_Policht2021_test_scan.yaml ./script_Policht2021.yaml
 
@@ -224,33 +224,33 @@ test_disorder: set_test_disorder
 	make validate
 	make clean
 	@echo test_disorder ended with success >> test.log
-	
+
 test_scan: set_test_scan
-	make run 
+	make run
 	make validate
 	make clean
 	@echo test_scan ended with success >> test.log
 
 test: purge test_single test_disorder test_scan
-	
-	
+
+
 
 #
 # Validation of test runs against stored data
 #
 validate:
 	${PYTHON} ${VALIDATION_SCRIPT} ${DIR}
-	
-	
+
+
 #
 # Input files for example runs
 #
 set_example_single: back
 	cp templates/script_Policht2021_example_single.yaml ./script_Policht2021.yaml
-	
+
 set_example_disorder: back
 	cp templates/script_Policht2021_example_disorder.yaml ./script_Policht2021.yaml
-	
+
 set_example_scan: back
 	cp templates/script_Policht2021_example_scan.yaml ./script_Policht2021.yaml
 
